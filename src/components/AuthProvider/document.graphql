@@ -1,0 +1,21 @@
+mutation login($request: LoginRequest!) {
+  login(request: $request) {
+    id
+    username
+    email
+    roles
+  }
+}
+
+mutation logout {
+  logout
+}
+
+query user {
+  user {
+    id
+    username
+    email
+    roles
+  }
+}
