@@ -1,0 +1,227 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Preview,
+  Props,
+} from '@storybook/addon-docs/blocks';
+import Button, { ButtonProps } from '.';
+
+<Meta
+  title="Components/Button"
+  component={Button}
+  argTypes={{
+    children: {
+      control: 'text',
+      defaultValue: 'Submit',
+    },
+    color: {
+      control: {
+        type: 'radio',
+        options: ['green', 'pink', 'gray'],
+      },
+      defaultValue: 'green',
+    },
+    variant: {
+      control: {
+        type: 'radio',
+        options: ['solid', 'outline', 'open'],
+      },
+      defaultValue: 'solid',
+    },
+    size: {
+      control: {
+        type: 'radio',
+        options: ['sm', 'normal', 'lg'],
+      },
+      defaultValue: 'normal',
+    },
+  }}
+/>
+
+# Button
+
+<Preview>
+  <Story
+    name="Button (Default)"
+    args={{
+      children: 'Submit',
+      variant: 'solid',
+      color: 'gray',
+      size: 'normal',
+    }}
+  >
+    {(args) => <Button {...args} />}
+  </Story>
+</Preview>
+
+<Props story="Button (Default)" />
+
+## Solid
+
+<Canvas>
+  <Story name="solid/gray/sm">
+    <Button variant="solid" color="gray" size="sm">
+      Gray
+    </Button>
+  </Story>
+  <Story name="solid/green/sm">
+    <Button variant="solid" color="green" size="sm">
+      Pink
+    </Button>
+  </Story>
+  <Story name="solid/pink/sm">
+    <Button variant="solid" color="pink" size="sm">
+      Blue
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/gray/normal">
+    <Button variant="solid" color="gray" size="normal">
+      Submit
+    </Button>
+  </Story>
+  <Story name="solid/green/normal">
+    <Button variant="solid" color="green" size="normal">
+      Submit
+    </Button>
+  </Story>
+  <Story name="solid/pink/normal">
+    <Button variant="solid" color="pink" size="normal">
+      Submit
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/gray/lg">
+    <Button variant="solid" color="gray" size="lg">
+      Submit
+    </Button>
+  </Story>
+  <Story name="solid/green/lg">
+    <Button variant="solid" color="green" size="lg">
+      Submit
+    </Button>
+  </Story>
+  <Story name="solid/pink/lg">
+    <Button variant="solid" color="pink" size="lg">
+      Submit
+    </Button>
+  </Story>
+</Canvas>
+
+## Outline
+
+<Canvas>
+  <Story name="outline/gray/sm">
+    <Button variant="outline" color="gray" size="sm">
+      Gray
+    </Button>
+  </Story>
+  <Story name="outline/green/sm">
+    <Button variant="outline" color="green" size="sm">
+      Pink
+    </Button>
+  </Story>
+  <Story name="outline/pink/sm">
+    <Button variant="outline" color="pink" size="sm">
+      Blue
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="outline/gray/normal">
+    <Button variant="outline" color="gray" size="normal">
+      Submit
+    </Button>
+  </Story>
+  <Story name="outline/green/normal">
+    <Button variant="outline" color="green" size="normal">
+      Submit
+    </Button>
+  </Story>
+  <Story name="outline/pink/normal">
+    <Button variant="outline" color="pink" size="normal">
+      Submit
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="outline/gray/lg">
+    <Button variant="outline" color="gray" size="lg">
+      Submit
+    </Button>
+  </Story>
+  <Story name="outline/green/lg">
+    <Button variant="outline" color="green" size="lg">
+      Submit
+    </Button>
+  </Story>
+  <Story name="outline/pink/lg">
+    <Button variant="outline" color="pink" size="lg">
+      Submit
+    </Button>
+  </Story>
+</Canvas>
+
+## Open
+
+<Canvas>
+  <Story name="open/gray/sm">
+    <Button variant="open" color="gray" size="sm">
+      Gray
+    </Button>
+  </Story>
+  <Story name="open/green/sm">
+    <Button variant="open" color="green" size="sm">
+      Pink
+    </Button>
+  </Story>
+  <Story name="open/pink/sm">
+    <Button variant="open" color="pink" size="sm">
+      Blue
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="open/gray/normal">
+    <Button variant="open" color="gray" size="normal">
+      Submit
+    </Button>
+  </Story>
+  <Story name="open/green/normal">
+    <Button variant="open" color="green" size="normal">
+      Submit
+    </Button>
+  </Story>
+  <Story name="open/pink/normal">
+    <Button variant="open" color="pink" size="normal">
+      Submit
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="open/gray/lg">
+    <Button variant="open" color="gray" size="lg">
+      Submit
+    </Button>
+  </Story>
+  <Story name="open/green/lg">
+    <Button variant="open" color="green" size="lg">
+      Submit
+    </Button>
+  </Story>
+  <Story name="open/pink/lg">
+    <Button variant="open" color="pink" size="lg">
+      Submit
+    </Button>
+  </Story>
+</Canvas>

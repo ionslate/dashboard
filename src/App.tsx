@@ -1,6 +1,5 @@
 import { useQueryClient } from 'react-query';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import { DataError } from './utils/fetcher';
@@ -22,14 +21,19 @@ function App() {
   });
 
   return (
-    <div className="App">
+    <div className="App bg-gray-900 h-screen box-border">
       <Router>
         <Switch>
           <Route path="/login">
             <Login />
           </Route>
           <ProtectedRoute path="/">
-            <button onClick={() => logout({})}>LOGOUT</button>
+            <button
+              onClick={() => logout({})}
+              className="bg-green-400 hover:bg-green-300 text-gray-700 font-bold py-2 px-4 rounded"
+            >
+              LOGOUT
+            </button>
           </ProtectedRoute>
         </Switch>
       </Router>

@@ -22,8 +22,6 @@ export default function ProtectedRoute({
   );
   const user = query?.data?.user;
 
-  console.log(query?.status);
-
   if (query?.status === 'loading' || query?.status === 'idle') {
     return null;
   }

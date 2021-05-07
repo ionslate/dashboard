@@ -1,9 +1,13 @@
+fragment UserInfo on User {
+  id
+  username
+  email
+  roles
+}
+
 mutation login($request: LoginRequest!) {
   login(request: $request) {
-    id
-    username
-    email
-    roles
+    ...UserInfo
   }
 }
 
@@ -13,9 +17,6 @@ mutation logout {
 
 query user {
   user {
-    id
-    username
-    email
-    roles
+    ...UserInfo
   }
 }
