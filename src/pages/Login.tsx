@@ -1,15 +1,12 @@
 import { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory, useLocation } from 'react-router-dom';
+import Button from '../components/Button';
 import { DataError } from '../utils/fetcher';
 import { useLoginMutation, UserQuery, useUserQuery } from '../__generated__';
-import { useRipple } from 'react-use-ripple';
 
 export default function Login() {
   const usernameInputRef = useRef<HTMLInputElement>(null);
-  const loginButtonRef = useRef<HTMLButtonElement>(null);
-
-  useRipple(loginButtonRef);
 
   const history = useHistory();
   const location = useLocation();
@@ -46,11 +43,8 @@ export default function Login() {
         <div className="shadow-inner px-8 pt-6 pb-8">
           <div>
             <div className="mb-8">
-              <h1 className="text-gray-100 text-5xl">IonSlate</h1>
+              <h1 className="text-gray-100 text-5xl">Ion Slate</h1>
               <span className="text-indigo-400 text-xl">Dashboard</span>
-            </div>
-            <div className="mb-4">
-              <span className="text-gray-300 pb-6 text-3xl">Login.</span>
             </div>
           </div>
           <form
@@ -72,7 +66,7 @@ export default function Login() {
                   ref={usernameInputRef}
                   id="username"
                   name="username"
-                  className="shadow-inner appearance-none border-2 border-gray-800 rounded w-full py-2 px-3 text-gray-100 bg-black bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-transparent"
+                  className="shadow-inner appearance-none border-2 border-gray-600 border-opacity-60 rounded w-full py-2 px-3 text-gray-100 bg-black bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-transparent"
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
@@ -89,7 +83,7 @@ export default function Login() {
                   id="password"
                   name="password"
                   type="password"
-                  className="shadow-inner appearance-none border-2 border-gray-800 rounded w-full py-2 px-3 text-gray-100 bg-black bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-transparent"
+                  className="shadow-inner appearance-none border-2 border-gray-600 border-opacity-60 rounded w-full py-2 px-3 text-gray-100 bg-black bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-transparent"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -109,13 +103,9 @@ export default function Login() {
                   <div className="border-l-gray-700 border-t-gray-700 border-b-gray-700 border-r-green-500 border-4 rounded-full w-10 h-10 animate-spin" />
                 </div>
               ) : (
-                <button
-                  type="submit"
-                  ref={loginButtonRef}
-                  className="mt-4 bg-green-300 min-w-[100px] hover:bg-green-200 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
+                <Button type="submit" color="green" className="mt-4">
                   Login
-                </button>
+                </Button>
               )}
             </div>
           </form>

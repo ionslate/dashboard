@@ -7,53 +7,65 @@ import { IconType, IconContext } from 'react-icons';
 const variantColorMap = {
   solid: {
     green:
-      'bg-green-500 hover:bg-green-400 text-white font-bold focus:ring-indigo-500 focus:ring-offset-indigo-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-green-500 disabled:text-gray-400 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-green-500 hover:bg-green-400 text-white font-bold focus:ring-indigo-500 focus:ring-offset-indigo-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-green-500 disabled:text-gray-400',
     pink:
-      'bg-pink-500 hover:bg-pink-400 text-white font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-pink-500 disabled:text-gray-400 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-pink-500 hover:bg-pink-400 text-white font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-pink-500 disabled:text-gray-400',
     gray:
-      'bg-gray-500 hover:bg-gray-400 text-white font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-gray-500 disabled:text-gray-400 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-gray-500 hover:bg-gray-400 text-white font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-gray-500 disabled:text-gray-400',
     red:
-      'bg-red-500 hover:bg-red-400 text-white font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-red-500 disabled:text-gray-400 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-red-500 hover:bg-red-400 text-white font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:bg-opacity-50 disabled:hover:bg-opacity-50 disabled:italic disabled:hover:bg-red-500 disabled:text-gray-400',
   },
   outline: {
     green:
-      'bg-transparent border-2 border-green-300 hover:bg-green-300 hover:bg-opacity-40 text-green-300 font-bold focus:ring-indigo-500 focus:ring-offset-indigo-300 disabled:italic disabled:hover:bg-transparent disabled:text-green-400 disabled:border-green-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent border-2 border-green-300 hover:bg-green-300 hover:bg-opacity-40 text-green-300 font-bold focus:ring-indigo-500 focus:ring-offset-indigo-300 disabled:italic disabled:hover:bg-transparent disabled:text-green-400 disabled:border-green-400 disabled:opacity-40',
     pink:
-      'bg-transparent border-2 border-pink-400 hover:bg-pink-400 hover:bg-opacity-40 text-pink-400 font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:italic disabled:hover:bg-transparent disabled:text-pink-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent border-2 border-pink-400 hover:bg-pink-400 hover:bg-opacity-40 text-pink-400 font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:italic disabled:hover:bg-transparent disabled:text-pink-400 disabled:opacity-40',
     gray:
-      'bg-transparent border-2 border-gray-400 hover:bg-gray-400 hover:bg-opacity-40 text-gray-400 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent border-2 border-gray-400 hover:bg-gray-400 hover:bg-opacity-40 text-gray-400 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-40',
     red:
-      'bg-transparent border-2 border-red-400 hover:bg-red-400 hover:bg-opacity-40 text-red-400 font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:italic disabled:hover:bg-transparent disabled:text-red-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent border-2 border-red-400 hover:bg-red-400 hover:bg-opacity-40 text-red-400 font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:italic disabled:hover:bg-transparent disabled:text-red-400 disabled:opacity-40',
   },
   open: {
     green:
-      'bg-transparent hover:bg-green-300 hover:bg-opacity-20 text-green-300 font-bold focus:ring-indigo-500 focus:ring-offset-indigo-300 disabled:italic disabled:hover:bg-transparent disabled:text-green-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent hover:bg-green-300 hover:bg-opacity-20 text-green-300 font-bold focus:ring-indigo-500 focus:ring-offset-indigo-300 disabled:italic disabled:hover:bg-transparent disabled:text-green-300 disabled:opacity-60',
     pink:
-      'bg-transparent hover:bg-pink-400 hover:bg-opacity-20 text-pink-400 font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:italic disabled:hover:bg-transparent disabled:text-pink-400 disabled:opacity-60 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent hover:bg-pink-400 hover:bg-opacity-20 text-pink-400 font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:italic disabled:hover:bg-transparent disabled:text-pink-400 disabled:opacity-60',
     gray:
-      'bg-transparent hover:bg-gray-400 hover:bg-opacity-20 text-gray-400 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-60 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent hover:bg-gray-400 hover:bg-opacity-20 text-gray-400 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-60',
     red:
-      'bg-transparent hover:bg-red-400 hover:bg-opacity-20 text-red-400 font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:italic disabled:hover:bg-transparent disabled:text-red-400 disabled:opacity-60 disabled:cursor-not-allowed disabled:font-normal',
+      'bg-transparent hover:bg-red-400 hover:bg-opacity-20 text-red-400 font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:italic disabled:hover:bg-transparent disabled:text-red-400 disabled:opacity-60',
   },
 } as const;
 
-const sizeMap = {
-  icon: {
-    sm: 'text-sm h-7 w-7 rounded-full',
-    normal: 'text-base h-10 w-10 rounded-full',
-    lg: 'text-lg h-11 w-11 rounded-full',
-  },
-  noIcon: {
-    sm: 'text-sm h-7 px-2 min-w-[60px] rounded',
-    normal: 'text-base h-10 px-2 min-w-[100px] rounded',
-    lg: 'text-lg h-11 px-2 tracking-wider min-w-[120px] rounded',
-  },
+const heightMap = {
+  sm: 'h-7',
+  normal: 'h-10',
+  lg: 'h-11',
 } as const;
 
 const iconSizeMap = {
   sm: '1rem',
   normal: '1.25rem',
   lg: '1.75rem',
+};
+
+const widthMap = {
+  icon: {
+    sm: 'w-7',
+    normal: 'w-10',
+    lg: 'w-11',
+  },
+  noIcon: {
+    sm: 'min-w-[60px]',
+    normal: 'min-w-[100px]',
+    lg: 'min-w-[120px]',
+  },
+};
+
+const textSizeMap = {
+  sm: 'text-sm',
+  normal: 'text-base',
+  lg: 'text-lg tracking-wider',
 };
 
 export interface ButtonProps
@@ -67,6 +79,7 @@ export interface ButtonProps
   size?: 'sm' | 'normal' | 'lg';
   icon?: IconType;
   iconPosition?: 'left' | 'right';
+  fullWidth?: boolean;
 }
 
 export default forwardRef(function Button(
@@ -76,6 +89,7 @@ export default forwardRef(function Button(
     size = 'normal',
     icon: IconComponent,
     iconPosition = 'left',
+    fullWidth,
     className,
     children,
     ...props
@@ -90,10 +104,17 @@ export default forwardRef(function Button(
       ref={mergeRefs(ref, inputRef)}
       className={classes(
         variantColorMap[variant]?.[color],
-        sizeMap[IconComponent && !children ? 'icon' : 'noIcon'][size],
+        textSizeMap[size],
+        heightMap[size],
+        fullWidth
+          ? 'w-full'
+          : widthMap[IconComponent && !children ? 'icon' : 'noIcon'][size],
         'focus:outline-none focus:ring-2 focus:ring-offset-2',
         'flex items-center justify-center',
+        'disabled:cursor-not-allowed disabled:font-normal',
         iconPosition === 'right' && 'flex-row-reverse',
+        IconComponent && !children && !fullWidth ? 'rounded-full' : 'rounded',
+        (IconComponent && !children) || 'px-2',
         className,
       )}
       {...props}
@@ -114,7 +135,7 @@ export default forwardRef(function Button(
       {children && (
         <span
           className={classes(
-            'flex-1',
+            fullWidth || 'flex-1',
             !IconComponent && 'flex items-center justify-center',
           )}
         >

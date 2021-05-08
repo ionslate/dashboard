@@ -38,6 +38,18 @@ import { GoAlert } from 'react-icons/go';
       },
       defaultValue: 'normal',
     },
+    fullWidth: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    disabled: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
   }}
 />
 
@@ -461,6 +473,36 @@ import { GoAlert } from 'react-icons/go';
   <Story name="open/icon with text left/lg">
     <Button variant="open" size="lg" icon={FiChevronDown} iconPosition="right">
       Menu
+    </Button>
+  </Story>
+</Canvas>
+
+## Full Width Button
+
+<Canvas>
+  <Story name="full width button">
+    <Button fullWidth>Submit</Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="full width button with icon">
+    <Button icon={GoAlert} fullWidth />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="full width button with text and icon left">
+    <Button fullWidth icon={GoAlert}>
+      Alert
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="full width button with text and icon right">
+    <Button fullWidth icon={GoAlert} iconPosition="right">
+      Alert
     </Button>
   </Story>
 </Canvas>
