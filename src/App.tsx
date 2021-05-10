@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LogoutButton from './components/LogoutButton';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
+import ResetPassword from './pages/ResetPassword';
 import { DataError } from './utils/fetcher';
 import { UserQuery, useUserQuery } from './__generated__';
 
@@ -19,6 +20,9 @@ function App() {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/reset">
+            <ResetPassword />
           </Route>
           <ProtectedRoute path="/">
             <LogoutButton />

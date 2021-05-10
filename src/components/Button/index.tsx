@@ -1,6 +1,5 @@
-import { classes } from '../../utils/classes';
 import { forwardRef, Ref, useRef } from 'react';
-import { mergeRefs } from '../../utils/mergeRefs';
+import { mergeRefs, classes } from '../../utils';
 import { useRipple } from 'react-use-ripple';
 import { IconType, IconContext } from 'react-icons';
 
@@ -60,12 +59,29 @@ const widthMap = {
     normal: 'min-w-[100px]',
     lg: 'min-w-[120px]',
   },
-};
+} as const;
 
 const textSizeMap = {
   sm: 'text-sm',
   normal: 'text-base',
   lg: 'text-lg tracking-wider',
+} as const;
+
+const spinnerColorMap = {
+  green:
+    'opacity-70 border-l-gray-600 border-t-gray-600 border-b-gray-600 border-r-green-300 rounded-full',
+  pink:
+    'opacity-70 border-l-gray-600 border-t-gray-600 border-b-gray-600 border-r-pink-300 rounded-full',
+  gray:
+    'opacity-70 border-l-gray-600 border-t-gray-600 border-b-gray-600 border-r-gray-300 rounded-full',
+  red:
+    'opacity-70 border-l-gray-600 border-t-gray-600 border-b-gray-600 border-r-red-300 rounded-full',
+};
+
+const spinnerSizeMap = {
+  sm: 'w-4 h-4 border-2',
+  normal: 'w-7 h-7 border-4 ',
+  lg: 'w-8 h-8 border-4 ',
 };
 
 export interface ButtonProps
@@ -80,6 +96,7 @@ export interface ButtonProps
   icon?: IconType;
   iconPosition?: 'left' | 'right';
   fullWidth?: boolean;
+  loading?: boolean;
 }
 
 export default forwardRef(function Button(
@@ -91,7 +108,9 @@ export default forwardRef(function Button(
     iconPosition = 'left',
     fullWidth,
     className,
+    loading,
     children,
+    disabled,
     ...props
   }: ButtonProps,
   ref: Ref<HTMLElement>,
@@ -112,35 +131,53 @@ export default forwardRef(function Button(
         'focus:outline-none focus:ring-2 focus:ring-offset-2',
         'flex items-center justify-center',
         'disabled:cursor-not-allowed disabled:font-normal',
+        'font-bold',
         iconPosition === 'right' && 'flex-row-reverse',
         IconComponent && !children && !fullWidth ? 'rounded-full' : 'rounded',
         (IconComponent && !children) || 'px-2',
         className,
       )}
+      disabled={loading || disabled}
       {...props}
     >
-      {IconComponent && (
-        <IconContext.Provider
-          value={{
-            className: classes(
-              children && iconPosition === 'left' && 'mr-2',
-              children && iconPosition === 'right' && 'ml-2',
-            ),
-            size: iconSizeMap[size],
-          }}
-        >
-          <IconComponent />
-        </IconContext.Provider>
-      )}
-      {children && (
-        <span
-          className={classes(
-            fullWidth || 'flex-1',
-            !IconComponent && 'flex items-center justify-center',
+      {loading ? (
+        <>
+          <div
+            className={classes(
+              'animate-spin',
+              spinnerSizeMap[size],
+              variant === 'solid'
+                ? 'opacity-70 border-l-gray-400 border-t-gray-400 border-b-gray-400 border-r-white border-4 rounded-full'
+                : spinnerColorMap[color],
+            )}
+          />
+        </>
+      ) : (
+        <>
+          {IconComponent && (
+            <IconContext.Provider
+              value={{
+                className: classes(
+                  children && iconPosition === 'left' && 'mr-2',
+                  children && iconPosition === 'right' && 'ml-2',
+                ),
+                size: iconSizeMap[size],
+              }}
+            >
+              <IconComponent />
+            </IconContext.Provider>
           )}
-        >
-          {children}
-        </span>
+          {children && (
+            <span
+              className={classes(
+                fullWidth || 'flex-1',
+                !IconComponent && 'flex items-center justify-center',
+              )}
+            >
+              {children}
+            </span>
+          )}
+        </>
       )}
     </button>
   );

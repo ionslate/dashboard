@@ -20,3 +20,13 @@ query user {
     ...UserInfo
   }
 }
+
+mutation resetPasswordRequest($email: String!) {
+  resetPasswordRequest(email: $email)
+}
+
+mutation resetPassword($resetId: String!, $password: String!) {
+  resetPassword(resetId: $resetId, password: $password) {
+    ...UserInfo
+  }
+}
