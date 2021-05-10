@@ -1,12 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, PropsWithChildren, RefObject } from 'react';
-import CloseButton from './CloseButton';
+import { classes } from '../../utils';
+import CloseButton from '../Button/CloseButton';
 
 interface ModalProps {
   open: boolean;
   onClose: () => void;
   title?: string;
   initialFocus?: RefObject<HTMLElement>;
+  description?: string;
 }
 
 export default function Modal({
@@ -14,6 +16,7 @@ export default function Modal({
   onClose,
   title,
   initialFocus,
+  description,
   children,
 }: PropsWithChildren<ModalProps>) {
   return (
@@ -67,8 +70,13 @@ export default function Modal({
                     </Dialog.Title>
                     <CloseButton onClick={onClose} />
                   </div>
-                  <hr className="mt-4 mb-8" />
+                  <hr
+                    className={classes('mt-4', description ? 'mb-4' : 'mb-8')}
+                  />
                 </>
+              )}
+              {description && (
+                <p className="mb-4 text-gray-200">{description}</p>
               )}
               {children}
             </div>
