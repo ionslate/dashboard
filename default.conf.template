@@ -1,5 +1,5 @@
 upstream backend {
-       server ${API_URL};
+       server ${API_URL}:80;
        keepalive 32;
 }
 
