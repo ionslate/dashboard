@@ -1,0 +1,15 @@
+schema: ${SCHEMA_PATH}
+documents: ./src/**/*.graphql
+overwrite: true
+generates:
+  ./src/__generated__.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      useIndexSignature: true
+      enumsAsTypes: true
+      maybeValue: T | null
+      fetcher: './utils/fetcher#fetcher'
+      exposeQueryKeys: true

@@ -1,0 +1,80 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Preview,
+} from '@storybook/addon-docs/blocks';
+import TextField, { TextFieldProps } from '.';
+
+<Meta
+  title="Components/TextField"
+  component={TextField}
+  argTypes={{
+    label: {
+      control: 'text',
+    },
+    error: {
+      control: 'text',
+    },
+    disabled: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    fullWidth: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+  }}
+/>
+
+# TextField
+
+<Preview>
+  <Story name="TextField (Default)">{(args) => <TextField {...args} />}</Story>
+</Preview>
+
+<ArgsTable story="TextField (Default)" of={TextField} />
+
+## TextField with Label
+
+<Canvas>
+  <Story
+    name="TextField with Label"
+    args={{
+      label: 'text field',
+    }}
+  >
+    {(args) => <TextField {...args} />}
+  </Story>
+</Canvas>
+
+## Full Width TextField
+
+<Canvas>
+  <Story
+    name="Full Width TextField"
+    args={{
+      fullWidth: true,
+    }}
+  >
+    {(args) => <TextField {...args} />}
+  </Story>
+</Canvas>
+
+## TextField with Error
+
+<Canvas>
+  <Story
+    name="TextField with Error"
+    args={{
+      error: 'Oops, you done messed up',
+    }}
+  >
+    {(args) => <TextField {...args} />}
+  </Story>
+</Canvas>

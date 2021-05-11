@@ -1,0 +1,90 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Preview,
+} from '@storybook/addon-docs/blocks';
+import Message, { MessageProps } from '.';
+
+<Meta
+  title="Components/Message"
+  component={Message}
+  argTypes={{
+    children: {
+      control: 'text',
+      defaultValue: 'Message',
+    },
+    type: {
+      control: {
+        type: 'radio',
+        options: ['info', 'success', 'warn', 'error'],
+      },
+      defaultValue: 'info',
+    },
+  }}
+/>
+
+# Message
+
+<Preview>
+  <Story name="Message (Default)">{(args) => <Message {...args} />}</Story>
+</Preview>
+
+<ArgsTable story="Message (Default)" of={Message} />
+
+## Info Message
+
+<Canvas>
+  <Story
+    name="Info Message"
+    args={{
+      type: 'info',
+      children: 'Info Message',
+    }}
+  >
+    {(args) => <Message {...args} />}
+  </Story>
+</Canvas>
+
+## Success Message
+
+<Canvas>
+  <Story
+    name="Success Message"
+    args={{
+      type: 'success',
+      children: 'Success Message',
+    }}
+  >
+    {(args) => <Message {...args} />}
+  </Story>
+</Canvas>
+
+## Warn Message
+
+<Canvas>
+  <Story
+    name="Warn Message"
+    args={{
+      type: 'warn',
+      children: 'Warn Message',
+    }}
+  >
+    {(args) => <Message {...args} />}
+  </Story>
+</Canvas>
+
+## Error Message
+
+<Canvas>
+  <Story
+    name="Error Message"
+    args={{
+      type: 'error',
+      children: 'Error Message',
+    }}
+  >
+    {(args) => <Message {...args} />}
+  </Story>
+</Canvas>

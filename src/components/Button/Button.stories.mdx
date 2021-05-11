@@ -1,0 +1,514 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Preview,
+} from '@storybook/addon-docs/blocks';
+import Button, { ButtonProps } from '.';
+import { FiMoreVertical, FiSave, FiChevronDown } from 'react-icons/fi';
+import { GoAlert } from 'react-icons/go';
+
+<Meta
+  title="Components/Button"
+  component={Button}
+  argTypes={{
+    children: {
+      control: 'text',
+      defaultValue: 'Submit',
+    },
+    color: {
+      control: {
+        type: 'radio',
+        options: ['green', 'pink', 'gray', 'red'],
+      },
+      defaultValue: 'green',
+    },
+    variant: {
+      control: {
+        type: 'radio',
+        options: ['solid', 'outline', 'open'],
+      },
+      defaultValue: 'solid',
+    },
+    size: {
+      control: {
+        type: 'radio',
+        options: ['sm', 'normal', 'lg'],
+      },
+      defaultValue: 'normal',
+    },
+    fullWidth: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    disabled: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    loading: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+  }}
+/>
+
+# Button
+
+<Preview>
+  <Story
+    name="Button (Default)"
+    args={{
+      children: 'Submit',
+      variant: 'solid',
+      color: 'gray',
+      size: 'normal',
+    }}
+  >
+    {(args) => <Button {...args} />}
+  </Story>
+</Preview>
+
+<ArgsTable story="Button (Default)" />
+
+## Solid
+
+<Canvas>
+  <Story name="solid/gray/sm">
+    <Button variant="solid" color="gray" size="sm">
+      Gray
+    </Button>
+  </Story>
+  <Story name="solid/green/sm">
+    <Button variant="solid" color="green" size="sm">
+      Green
+    </Button>
+  </Story>
+  <Story name="solid/pink/sm">
+    <Button variant="solid" color="pink" size="sm">
+      Pink
+    </Button>
+  </Story>
+  <Story name="solid/red/sm">
+    <Button variant="solid" color="red" size="sm">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/gray/normal">
+    <Button variant="solid" color="gray" size="normal">
+      Gray
+    </Button>
+  </Story>
+  <Story name="solid/green/normal">
+    <Button variant="solid" color="green" size="normal">
+      Green
+    </Button>
+  </Story>
+  <Story name="solid/pink/normal">
+    <Button variant="solid" color="pink" size="normal">
+      Pink
+    </Button>
+  </Story>
+  <Story name="solid/red/normal">
+    <Button variant="solid" color="red" size="normal">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/gray/lg">
+    <Button variant="solid" color="gray" size="lg">
+      Gray
+    </Button>
+  </Story>
+  <Story name="solid/green/lg">
+    <Button variant="solid" color="green" size="lg">
+      Green
+    </Button>
+  </Story>
+  <Story name="solid/pink/lg">
+    <Button variant="solid" color="pink" size="lg">
+      Pink
+    </Button>
+  </Story>
+  <Story name="solid/red/lg">
+    <Button variant="solid" color="red" size="lg">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+## Outline
+
+<Canvas>
+  <Story name="outline/gray/sm">
+    <Button variant="outline" color="gray" size="sm">
+      Gray
+    </Button>
+  </Story>
+  <Story name="outline/green/sm">
+    <Button variant="outline" color="green" size="sm">
+      Green
+    </Button>
+  </Story>
+  <Story name="outline/pink/sm">
+    <Button variant="outline" color="pink" size="sm">
+      Pink
+    </Button>
+  </Story>
+  <Story name="outline/red/sm">
+    <Button variant="outline" color="red" size="sm">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="outline/gray/normal">
+    <Button variant="outline" color="gray" size="normal">
+      Gray
+    </Button>
+  </Story>
+  <Story name="outline/green/normal">
+    <Button variant="outline" color="green" size="normal">
+      Green
+    </Button>
+  </Story>
+  <Story name="outline/pink/normal">
+    <Button variant="outline" color="pink" size="normal">
+      Pink
+    </Button>
+  </Story>
+  <Story name="outline/red/normal">
+    <Button variant="outline" color="red" size="normal">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="outline/gray/lg">
+    <Button variant="outline" color="gray" size="lg">
+      Gray
+    </Button>
+  </Story>
+  <Story name="outline/green/lg">
+    <Button variant="outline" color="green" size="lg">
+      Green
+    </Button>
+  </Story>
+  <Story name="outline/pink/lg">
+    <Button variant="outline" color="pink" size="lg">
+      Pink
+    </Button>
+  </Story>
+  <Story name="outline/red/lg">
+    <Button variant="outline" color="red" size="lg">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+## Open
+
+<Canvas>
+  <Story name="open/gray/sm">
+    <Button variant="open" color="gray" size="sm">
+      Gray
+    </Button>
+  </Story>
+  <Story name="open/green/sm">
+    <Button variant="open" color="green" size="sm">
+      Green
+    </Button>
+  </Story>
+  <Story name="open/pink/sm">
+    <Button variant="open" color="pink" size="sm">
+      Pink
+    </Button>
+  </Story>
+  <Story name="open/red/sm">
+    <Button variant="open" color="red" size="sm">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="open/gray/normal">
+    <Button variant="open" color="gray" size="normal">
+      Gray
+    </Button>
+  </Story>
+  <Story name="open/green/normal">
+    <Button variant="open" color="green" size="normal">
+      Green
+    </Button>
+  </Story>
+  <Story name="open/pink/normal">
+    <Button variant="open" color="pink" size="normal">
+      Pink
+    </Button>
+  </Story>
+  <Story name="open/red/normal">
+    <Button variant="open" color="red" size="normal">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="open/gray/lg">
+    <Button variant="open" color="gray" size="lg">
+      Gray
+    </Button>
+  </Story>
+  <Story name="open/green/lg">
+    <Button variant="open" color="green" size="lg">
+      Green
+    </Button>
+  </Story>
+  <Story name="open/pink/lg">
+    <Button variant="open" color="pink" size="lg">
+      Pink
+    </Button>
+  </Story>
+  <Story name="open/red/lg">
+    <Button variant="open" color="red" size="lg">
+      Red
+    </Button>
+  </Story>
+</Canvas>
+
+## Icons
+
+<Preview>
+  <Story
+    name="Icon Button"
+    args={{
+      children: 'Submit',
+      variant: 'solid',
+      color: 'gray',
+      size: 'normal',
+    }}
+  >
+    {(args) => (
+      <Button {...args} icon={GoAlert}>
+        {null}
+      </Button>
+    )}
+  </Story>
+</Preview>
+
+<ArgsTable story="Icon Button" />
+
+<Canvas>
+  <Story name="solid/icon/sm">
+    <Button variant="solid" size="sm" icon={FiMoreVertical} />
+  </Story>
+  <Story name="outline/icon/sm">
+    <Button variant="outline" size="sm" icon={FiMoreVertical} />
+  </Story>
+  <Story name="open/icon/sm">
+    <Button variant="open" size="sm" icon={FiMoreVertical} />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon/normal">
+    <Button variant="solid" size="normal" icon={FiMoreVertical} />
+  </Story>
+  <Story name="outline/icon/normal">
+    <Button variant="outline" size="normal" icon={FiMoreVertical} />
+  </Story>
+  <Story name="open/icon/normal">
+    <Button variant="open" size="normal" icon={FiMoreVertical} />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon/lg">
+    <Button variant="solid" size="lg" icon={FiMoreVertical} />
+  </Story>
+  <Story name="outline/icon/lg">
+    <Button variant="outline" size="lg" icon={FiMoreVertical} />
+  </Story>
+  <Story name="open/icon/lg">
+    <Button variant="open" size="lg" icon={FiMoreVertical} />
+  </Story>
+</Canvas>
+
+## Icons with Text
+
+<Canvas>
+  <Story name="solid/icon with text right/sm">
+    <Button variant="solid" size="sm" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+  <Story name="outline/icon with text right/sm">
+    <Button variant="outline" size="sm" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+  <Story name="open/icon with text right/sm">
+    <Button variant="open" size="sm" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon with text left/sm">
+    <Button variant="solid" size="sm" icon={FiChevronDown} iconPosition="right">
+      Menu
+    </Button>
+  </Story>
+  <Story name="outline/icon with text left/sm">
+    <Button
+      variant="outline"
+      size="sm"
+      icon={FiChevronDown}
+      iconPosition="right"
+    >
+      Menu
+    </Button>
+  </Story>
+  <Story name="open/icon with text left/sm">
+    <Button variant="open" size="sm" icon={FiChevronDown} iconPosition="right">
+      Menu
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon with text right/normal">
+    <Button variant="solid" size="normal" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+  <Story name="outline/icon with text right/normal">
+    <Button variant="outline" size="normal" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+  <Story name="open/icon with text right/normal">
+    <Button variant="open" size="normal" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon with text left/normal">
+    <Button
+      variant="solid"
+      size="normal"
+      icon={FiChevronDown}
+      iconPosition="right"
+    >
+      Menu
+    </Button>
+  </Story>
+  <Story name="outline/icon with text left/normal">
+    <Button
+      variant="outline"
+      size="normal"
+      icon={FiChevronDown}
+      iconPosition="right"
+    >
+      Menu
+    </Button>
+  </Story>
+  <Story name="open/icon with text left/normal">
+    <Button
+      variant="open"
+      size="normal"
+      icon={FiChevronDown}
+      iconPosition="right"
+    >
+      Menu
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon with text right/lg">
+    <Button variant="solid" size="lg" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+  <Story name="outline/icon with text right/lg">
+    <Button variant="outline" size="lg" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+  <Story name="open/icon with text right/lg">
+    <Button variant="open" size="lg" icon={FiSave}>
+      Save
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="solid/icon with text left/lg">
+    <Button variant="solid" size="lg" icon={FiChevronDown} iconPosition="right">
+      Menu
+    </Button>
+  </Story>
+  <Story name="outline/icon with text left/lg">
+    <Button
+      variant="outline"
+      size="lg"
+      icon={FiChevronDown}
+      iconPosition="right"
+    >
+      Menu
+    </Button>
+  </Story>
+  <Story name="open/icon with text left/lg">
+    <Button variant="open" size="lg" icon={FiChevronDown} iconPosition="right">
+      Menu
+    </Button>
+  </Story>
+</Canvas>
+
+## Full Width Button
+
+<Canvas>
+  <Story name="full width button">
+    <Button fullWidth>Submit</Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="full width button with icon">
+    <Button icon={GoAlert} fullWidth />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="full width button with text and icon left">
+    <Button fullWidth icon={GoAlert}>
+      Alert
+    </Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="full width button with text and icon right">
+    <Button fullWidth icon={GoAlert} iconPosition="right">
+      Alert
+    </Button>
+  </Story>
+</Canvas>

@@ -1,0 +1,32 @@
+fragment UserInfo on User {
+  id
+  username
+  email
+  roles
+}
+
+mutation login($request: LoginRequest!) {
+  login(request: $request) {
+    ...UserInfo
+  }
+}
+
+mutation logout {
+  logout
+}
+
+query user {
+  user {
+    ...UserInfo
+  }
+}
+
+mutation resetPasswordRequest($email: String!) {
+  resetPasswordRequest(email: $email)
+}
+
+mutation resetPassword($resetId: String!, $password: String!) {
+  resetPassword(resetId: $resetId, password: $password) {
+    ...UserInfo
+  }
+}
