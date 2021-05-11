@@ -7,7 +7,7 @@ server {
   listen 80;
 
   location /graphql {
-    proxy_pass  ${API_URL}/graphql;
+    proxy_pass  http://${API_URL}/graphql;
     proxy_set_header  Host $http_host;
   }
 
