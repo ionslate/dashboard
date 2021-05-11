@@ -46,25 +46,23 @@ export default function Modal({
           <span
             className="inline-block h-screen align-middle"
             aria-hidden="true"
-          >
-            &#8203;
-          </span>
+          />
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
-            enterFrom="opacity-0 scale-95"
-            enterTo="opacity-100 scale-100"
+            enterFrom="opacity-0 scale-95 translate-y-12"
+            enterTo="opacity-100 scale-100 translate-y-0"
             leave="ease-in duration-200"
-            leaveFrom="opacity-100 scale-100"
-            leaveTo="opacity-0 scale-95"
+            leaveFrom="opacity-100 scale-100 translate-y-12"
+            leaveTo="opacity-0 scale-95 translate-y-12"
           >
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-700 shadow-xl rounded  border-l-4 border-indigo-400 border-opacity-40">
+            <div className="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-700 shadow-xl rounded  border-l-4 border-indigo-400 border-opacity-40">
               {title && (
                 <>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between p-6 pb-0">
                     <Dialog.Title
                       as="h2"
-                      className="text-xl font-medium leading-6 text-gray-100 tracking-wide"
+                      className="text-2xl font-bold leading-6 text-gray-100 tracking-wide"
                     >
                       {title}
                     </Dialog.Title>
@@ -75,10 +73,12 @@ export default function Modal({
                   />
                 </>
               )}
-              {description && (
-                <p className="mb-4 text-gray-200">{description}</p>
-              )}
-              {children}
+              <div className="p-6 pt-0">
+                {description && (
+                  <p className="mb-4 text-gray-200">{description}</p>
+                )}
+                {children}
+              </div>
             </div>
           </Transition.Child>
         </div>
