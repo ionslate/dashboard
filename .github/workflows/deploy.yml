@@ -76,6 +76,8 @@ jobs:
             ${{ secrets.IMAGE_REPOSITORY }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
+          build-args: |
+            apiUrl=${{ secrets.API_URL }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
