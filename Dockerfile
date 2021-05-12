@@ -1,5 +1,9 @@
 FROM node:12 as builder
 
+ARG api_url
+
+ENV REACT_APP_API_URL=$api_url
+
 ENV SKIP_PREFLIGHT_CHECK=true
 
 WORKDIR /app
