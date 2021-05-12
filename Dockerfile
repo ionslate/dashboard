@@ -18,18 +18,10 @@ RUN rm -rf /etc/nginx/conf.d
 
 RUN mkdir -p /etc/nginx/conf.d
 
-RUN mkdir -p /etc/nginx/templates
-
-COPY ./default.conf /etc/nginx/conf.d
+COPY ./default.conf /etc/nginx/conf.d/
 
 COPY --from=builder /app/build /usr/share/nginx/html
 
 EXPOSE 80
-
-COPY docker-entrypoint.sh /
-
-# RUN chmod +x /docker-entrypoint.sh
-
-# ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
