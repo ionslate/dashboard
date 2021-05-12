@@ -9,12 +9,13 @@ export function fetcher<TData, TVariables>(
   variables?: TVariables,
 ) {
   return async (): Promise<TData> => {
-    const res = await fetch('/graphql', {
+    const res = await fetch(process.env.REACT_APP_API_URL + '/graphql', {
       method: 'POST',
       body: JSON.stringify({ query, variables }),
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
 
     const json = await res.json();
