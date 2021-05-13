@@ -1,28 +1,27 @@
 import { PropsWithChildren } from 'react';
-import { useQueryClient } from 'react-query';
+import { RiForbidLine } from 'react-icons/ri';
 import { Redirect, Route, useLocation } from 'react-router-dom';
-import { DataError } from '../../utils/fetcher';
-import { UserQuery, UserRole, useUserQuery } from '../../__generated__';
+import { UserRole } from '../../__generated__';
+import { useAuth } from '../AuthProvider';
+import MessageCard from '../Message/MessageCard';
 
 interface ProtectedRouteProps {
   path?: string;
+  exact?: boolean;
   requiredRoles?: UserRole[];
 }
 
 export default function ProtectedRoute({
   path,
+  exact,
   requiredRoles,
   children,
 }: PropsWithChildren<ProtectedRouteProps>): JSX.Element | null {
   const location = useLocation();
-  const queryClient = useQueryClient();
 
-  const query = queryClient.getQueryState<UserQuery, DataError>(
-    useUserQuery.getKey({}),
-  );
-  const user = query?.data?.user;
+  const { user, requestStatus, hasRole } = useAuth();
 
-  if (query?.status === 'loading' || query?.status === 'idle') {
+  if (requestStatus === 'loading' || requestStatus === 'idle') {
     return null;
   }
 
@@ -30,13 +29,21 @@ export default function ProtectedRoute({
     return <Redirect to={`/login?redirect=${location.pathname}`} />;
   }
 
-  const hasRequiredRoles = requiredRoles?.some((role) =>
-    user.roles.includes(role),
-  );
+  const hasRequiredRoles = requiredRoles?.some((role) => hasRole(role));
 
   if (requiredRoles && !hasRequiredRoles) {
-    return <Redirect to={`/login?redirect=${location.pathname}`} />;
+    return (
+      <div className="flex h-full items-center justify-center">
+        <MessageCard title="Access Denied" icon={RiForbidLine} negative>
+          You do not have permissions to access this page.
+        </MessageCard>
+      </div>
+    );
   }
 
-  return <Route path={path}>{children}</Route>;
+  return (
+    <Route path={path} exact={exact}>
+      {children}
+    </Route>
+  );
 }

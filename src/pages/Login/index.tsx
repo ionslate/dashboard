@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { useAuth } from '../../components/AuthProvider';
 import Button from '../../components/Button';
 import Message from '../../components/Message';
 import TextField from '../../components/TextField';
@@ -25,11 +26,13 @@ export default function Login() {
       queryClient.setQueryData<UserQuery>(useUserQuery.getKey({}), {
         user: res.login,
       });
-      if (redirect) {
-        history.push(redirect);
-      } else {
-        history.push('/');
-      }
+      setTimeout(() => {
+        if (redirect) {
+          history.push(redirect);
+        } else {
+          history.push('/');
+        }
+      }, 0);
     },
     onError: () => {
       usernameInputRef.current?.focus();
@@ -38,7 +41,13 @@ export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const { user } = useAuth();
+
   const redirect = queryParams.get('redirect');
+
+  if (user) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="container flex flex-row justify-center items-center h-full mx-auto">
