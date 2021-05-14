@@ -9,12 +9,20 @@ export interface ButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  negative?: boolean;
+  color?: 'gray' | 'red' | 'green' | 'pink';
   icon?: IconType;
 }
 
+const iconColorMap = {
+  gray: 'text-gray-500',
+  red: 'text-red-300',
+
+  green: 'text-green-300',
+  pink: 'text-pink-400',
+} as const;
+
 export default function NavItemAction({
-  negative,
+  color = 'gray',
   className,
   icon: IconComponent,
   children,
@@ -36,10 +44,7 @@ export default function NavItemAction({
       {IconComponent && (
         <IconContext.Provider
           value={{
-            className: classes(
-              'w-6 h-6 mr-4',
-              negative ? 'text-red-300' : 'text-green-300',
-            ),
+            className: classes('w-6 h-6 mr-4', iconColorMap[color]),
           }}
         >
           <IconComponent />

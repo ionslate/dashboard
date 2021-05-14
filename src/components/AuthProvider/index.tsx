@@ -4,7 +4,8 @@ import {
   useCallback,
   useContext,
 } from 'react';
-import { User, UserRole } from '../../__generated__';
+import { DataError } from '../../utils';
+import { User, UserQuery, UserRole, useUserQuery } from '../../__generated__';
 
 export interface Auth {
   user?: User | null;
@@ -19,11 +20,16 @@ export const AuthContext = createContext<Auth>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export default function AuthProvider({
-  user,
-  requestStatus,
-  children,
-}: PropsWithChildren<Omit<Auth, 'hasRole'>>) {
+export default function AuthProvider({ children }: PropsWithChildren<{}>) {
+  const { data, status } = useUserQuery<UserQuery, DataError>(
+    {},
+    {
+      retry: (failureCount, error) => error.code !== 401 && failureCount < 3,
+    },
+  );
+
+  const user = data?.user;
+
   const hasRole = useCallback(
     (role: UserRole) => {
       if (!user) {
@@ -36,7 +42,7 @@ export default function AuthProvider({
   );
 
   return (
-    <AuthContext.Provider value={{ user, hasRole, requestStatus }}>
+    <AuthContext.Provider value={{ user, hasRole, requestStatus: status }}>
       {children}
     </AuthContext.Provider>
   );

@@ -31,7 +31,7 @@ export default function NavItem({
       className={classes(
         'w-full py-2 px-4 my-2 rounded flex text-gray-500',
         active
-          ? 'bg-gray-200'
+          ? 'bg-gray-300'
           : 'bg-transparent hover:bg-gray-700 hover:bg-opacity-70',
         'focus:outline-none focus:ring-2 focus:ring-gray-200',
       )}

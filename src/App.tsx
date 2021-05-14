@@ -6,20 +6,11 @@ import MessageCard from './components/Message/MessageCard';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
-import { DataError } from './utils/fetcher';
-import { UserQuery, useUserQuery } from './__generated__';
 
 function App() {
-  const { data, status } = useUserQuery<UserQuery, DataError>(
-    {},
-    {
-      retry: (failureCount, error) => error.code !== 401 && failureCount < 3,
-    },
-  );
-
   return (
     <div className="App bg-gray-900 text-gray-100 h-screen box-border">
-      <AuthProvider user={data?.user} requestStatus={status}>
+      <AuthProvider>
         <Router>
           <Switch>
             <Route exact path="/login">
@@ -58,12 +49,6 @@ function App() {
                     path="/content/units"
                   >
                     Units
-                  </ProtectedRoute>
-                  <ProtectedRoute
-                    requiredRoles={['CONTENT_MANAGER']}
-                    path="/content/rules"
-                  >
-                    Rules
                   </ProtectedRoute>
                   <ProtectedRoute
                     requiredRoles={['CONTENT_MANAGER']}

@@ -1,12 +1,15 @@
 import { PropsWithChildren } from 'react';
-import { GiCpu, GiRuleBook, GiSpinningSword } from 'react-icons/gi';
+import { GiAmmoBox } from 'react-icons/gi';
 import { HiUserGroup } from 'react-icons/hi';
 import {
   RiAddCircleLine,
+  RiCpuLine,
+  RiFileList3Line,
   RiFileUserLine,
   RiFolderUserLine,
   RiGroupFill,
   RiImage2Fill,
+  RiSwordLine,
 } from 'react-icons/ri';
 import { VscHome } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
@@ -55,19 +58,20 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
               <NavItem to="/content/units" icon={RiFileUserLine}>
                 Units
               </NavItem>
-              <NavItem to="/content/rules" icon={GiRuleBook}>
-                Rules
-              </NavItem>
-              <NavItem to="/content/weapons" icon={GiSpinningSword}>
+              <NavItemAction icon={RiFileList3Line}>Rules</NavItemAction>
+              <NavItem to="/content/weapons" icon={RiSwordLine}>
                 Weapons
               </NavItem>
-              <NavItem to="/content/hacking" icon={GiCpu}>
+              <NavItemAction icon={GiAmmoBox}>Ammo</NavItemAction>
+              <NavItem to="/content/hacking" icon={RiCpuLine}>
                 Hacking
               </NavItem>
             </>
           )}
           {hasRole('CONTENT_PUBLISHER') && (
-            <NavItemAction icon={RiAddCircleLine}>Publish</NavItemAction>
+            <NavItemAction icon={RiAddCircleLine} color="green">
+              Publish
+            </NavItemAction>
           )}
           {hasRole('CONTENT_MANAGER') && (
             <>
