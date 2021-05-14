@@ -43,10 +43,9 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
           <NavItem to="/" icon={VscHome}>
             Dashboard
           </NavItem>
-          {hasRole('CONTENT_MANAGER') ||
-            (hasRole('CONTENT_PUBLISHER') && (
-              <NavGroupLabel>Content</NavGroupLabel>
-            ))}
+          {(hasRole('CONTENT_MANAGER') || hasRole('CONTENT_PUBLISHER')) && (
+            <NavGroupLabel>Content</NavGroupLabel>
+          )}
           {hasRole('CONTENT_MANAGER') && (
             <>
               <NavItem to="/content/armies" icon={RiGroupFill}>
