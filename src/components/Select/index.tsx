@@ -5,25 +5,25 @@ import { BiErrorCircle } from 'react-icons/bi';
 import { HiCheck, HiSelector } from 'react-icons/hi';
 import { classes } from '../../utils';
 
-export interface DropdownOption<T> {
+export interface SelectOption<T> {
   label: string;
   disabled?: boolean;
   value: T;
 }
 
-export interface DropdownChangeEvent<T> {
+export interface SelectChangeEvent<T> {
   name?: string;
-  option: DropdownOption<T>;
+  option: SelectOption<T>;
 }
 
-export interface DropdownProps<T> {
+export interface SelectProps<T> {
   label?: string;
   error?: boolean | string;
   name?: string;
-  options?: DropdownOption<T>[];
-  value: DropdownOption<T>;
+  options?: SelectOption<T>[];
+  value: SelectOption<T>;
   disabled?: boolean;
-  onChange?: (e: DropdownChangeEvent<T>) => void;
+  onChange?: (e: SelectChangeEvent<T>) => void;
   autoFocus?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -32,7 +32,7 @@ export interface DropdownProps<T> {
   straightSide?: 'left' | 'right';
 }
 
-export default function Example<T>({
+export default function Select<T>({
   label,
   error,
   name,
@@ -46,7 +46,7 @@ export default function Example<T>({
   fullWidth,
   placeholder,
   straightSide,
-}: DropdownProps<T>) {
+}: SelectProps<T>) {
   return (
     <div
       style={style}

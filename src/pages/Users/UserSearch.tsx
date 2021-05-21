@@ -2,19 +2,19 @@ import { DebouncedFunc } from 'lodash';
 import { useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import Button from '../../components/Button';
-import Dropdown, { DropdownOption } from '../../components/Dropdown';
+import Select, { SelectOption } from '../../components/Select';
 import TextField from '../../components/TextField';
 import { UserRole, UserSearch } from '../../__generated__';
 
 type SearchDropdownOptions = 'ALL' | 'USERNAME' | 'EMAIL';
 
-const searchOptions: DropdownOption<SearchDropdownOptions>[] = [
+const searchOptions: SelectOption<SearchDropdownOptions>[] = [
   { label: 'All', disabled: false, value: 'ALL' },
   { label: 'Username', disabled: false, value: 'USERNAME' },
   { label: 'Email', disabled: false, value: 'EMAIL' },
 ];
 
-const filterByRoleOptions: DropdownOption<UserRole | null>[] = [
+const filterByRoleOptions: SelectOption<UserRole | null>[] = [
   { label: '(None)', disabled: false, value: null },
   { label: 'User', disabled: false, value: 'USER' },
   { label: 'User Admin', disabled: false, value: 'USER_ADMIN' },
@@ -72,6 +72,7 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
       <TextField
         className="w-64"
         label="search"
+        id="user-search"
         placeholder="Search..."
         value={searchFields.searchInput}
         onChange={(e) =>
@@ -82,7 +83,7 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
         }
         straightSide="right"
       />
-      <Dropdown
+      <Select
         straightSide="left"
         value={searchFields.selectedSearchOption}
         onChange={({ option }) =>
@@ -95,9 +96,9 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
           )
         }
         options={searchOptions}
-        className="w-36 mr-10"
+        className="w-36 mr-5"
       />
-      <Dropdown
+      <Select
         label="filter by role"
         value={searchFields.selectedRoleFilter}
         onChange={({ option }) =>
@@ -110,13 +111,14 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
           )
         }
         options={filterByRoleOptions}
-        className="w-48 mr-10"
+        className="w-48 mr-5"
       />
       {(searchFields.searchInput ||
         searchFields.selectedSearchOption.value !== 'ALL' ||
         searchFields.selectedRoleFilter.value !== null) && (
         <Button
           icon={FiX}
+          color="red"
           size="sm"
           variant="outline"
           className="mb-2"
