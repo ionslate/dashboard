@@ -4,6 +4,8 @@ overwrite: true
 generates:
   ./src/__generated__.ts:
     plugins:
+      - add:
+          content: "import { DataError } from './utils/fetcher';"
       - typescript
       - typescript-operations
       - typescript-react-query
@@ -13,3 +15,4 @@ generates:
       maybeValue: T | null
       fetcher: './utils/fetcher#fetcher'
       exposeQueryKeys: true
+      errorType: DataError

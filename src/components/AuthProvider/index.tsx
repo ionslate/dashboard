@@ -4,8 +4,7 @@ import {
   useCallback,
   useContext,
 } from 'react';
-import { DataError } from '../../utils';
-import { User, UserQuery, UserRole, useUserQuery } from '../../__generated__';
+import { User, UserRole, useUserQuery } from '../../__generated__';
 
 export interface Auth {
   user?: User | null;
@@ -21,7 +20,7 @@ export const AuthContext = createContext<Auth>({
 export const useAuth = () => useContext(AuthContext);
 
 export default function AuthProvider({ children }: PropsWithChildren<{}>) {
-  const { data, status } = useUserQuery<UserQuery, DataError>(
+  const { data, status } = useUserQuery(
     {},
     {
       retry: (failureCount, error) => error.code !== 401 && failureCount < 3,

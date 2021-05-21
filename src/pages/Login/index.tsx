@@ -5,7 +5,6 @@ import { useAuth } from '../../components/AuthProvider';
 import Button from '../../components/Button';
 import Message from '../../components/Message';
 import TextField from '../../components/TextField';
-import { DataError } from '../../utils';
 import { useLoginMutation, UserQuery, useUserQuery } from '../../__generated__';
 import ResetPasswordRequest from './ResetPasswordRequest';
 
@@ -16,12 +15,7 @@ export default function Login() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const queryClient = useQueryClient();
-  const {
-    mutate: login,
-    error,
-    isError,
-    isLoading,
-  } = useLoginMutation<DataError>({
+  const { mutate: login, error, isError, isLoading } = useLoginMutation({
     onSuccess: (res) => {
       queryClient.setQueryData<UserQuery>(useUserQuery.getKey({}), {
         user: res.login,

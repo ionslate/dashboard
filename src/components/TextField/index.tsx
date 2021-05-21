@@ -24,33 +24,44 @@ export interface TextFieldProps {
   className?: string;
   style?: CSSProperties;
   fullWidth?: boolean;
+  placeholder?: string;
+  straightSide?: 'left' | 'right';
 }
 
 export default forwardRef(function TextField(
-  { label, error, className, id, fullWidth, ...props }: TextFieldProps,
+  {
+    label,
+    error,
+    className,
+    id,
+    fullWidth,
+    straightSide,
+    style,
+    ...props
+  }: TextFieldProps,
   ref: Ref<HTMLInputElement>,
 ) {
   return (
-    <>
+    <div className={classes(fullWidth && 'w-full', className)} style={style}>
       <label
         htmlFor={id}
         className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-1"
       >
         {label}
       </label>
-      <div
-        className={classes('shadow-sm', fullWidth ? 'w-full' : 'inline-block')}
-      >
+      <div className={classes('shadow-sm', 'w-full')}>
         <input
           id={id}
           ref={ref}
           className={classes(
-            'shadow-inner appearance-none border-2 rounded py-2 px-3 text-gray-100 bg-black bg-opacity-80 focus:outline-none focus:ring-2 focus:border-transparent',
+            'shadow-inner appearance-none border-t-2 border-b-2 py-2 px-3 text-gray-100 bg-[#08101A] focus:outline-none focus:ring-2 focus:border-transparent disabled:cursor-not-allowed',
+            !straightSide && 'rounded border-l-2 border-r-2',
+            straightSide === 'left' && 'border-l-[1px] rounded-r border-r-2',
+            straightSide === 'right' && 'border-r-[1px] rounded-l border-l-2',
+            'w-full',
             error
               ? 'border-red-600 focus:ring-red-400'
               : 'border-gray-600 focus:ring-green-200',
-            fullWidth && 'w-full',
-            className,
           )}
           {...props}
         />
@@ -63,6 +74,6 @@ export default forwardRef(function TextField(
           <span className="text-red-500 text-sm flex-1">{error}</span>
         </div>
       )}
-    </>
+    </div>
   );
 });

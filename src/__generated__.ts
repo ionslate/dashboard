@@ -1,3 +1,4 @@
+import { DataError } from './utils/fetcher';
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 import { fetcher } from './utils/fetcher';
 export type Maybe<T> = T | null;
@@ -105,6 +106,7 @@ export type Mutation = {
   login: User;
   logout?: Maybe<Scalars['Boolean']>;
   createUser: User;
+  adminCreateUser: User;
   changePassword?: Maybe<Scalars['Boolean']>;
   updateUser?: Maybe<User>;
   removeUser?: Maybe<Scalars['ID']>;
@@ -148,6 +150,11 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationAdminCreateUserArgs = {
+  request: UserAdminRequest;
+};
+
+
 export type MutationChangePasswordArgs = {
   request: ChangePasswordRequest;
 };
@@ -155,7 +162,7 @@ export type MutationChangePasswordArgs = {
 
 export type MutationUpdateUserArgs = {
   userId: Scalars['ID'];
-  request: UserRequest;
+  request: UserAdminRequest;
 };
 
 
@@ -429,6 +436,13 @@ export type User = {
   roles: Array<UserRole>;
 };
 
+export type UserAdminRequest = {
+  username: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
+  roles: Array<UserRole>;
+};
+
 export type UserRequest = {
   username: Scalars['String'];
   password?: Maybe<Scalars['String']>;
@@ -442,8 +456,10 @@ export type UserRole =
   | 'CONTENT_PUBLISHER';
 
 export type UserSearch = {
+  searchTerm?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  role?: Maybe<UserRole>;
 };
 
 export type ValidationError = {
@@ -576,6 +592,25 @@ export type ResetPasswordMutation = (
   ) }
 );
 
+export type UserListQueryVariables = Exact<{
+  search?: Maybe<UserSearch>;
+  page?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type UserListQuery = (
+  { __typename?: 'Query' }
+  & { userList: (
+    { __typename?: 'PagedUsers' }
+    & Pick<PagedUsers, 'page' | 'last' | 'count'>
+    & { content: Array<(
+      { __typename?: 'User' }
+      & UserInfoFragment
+    )> }
+  ) }
+);
+
 export const UserInfoFragmentDoc = `
     fragment UserInfo on User {
   id
@@ -592,7 +627,7 @@ export const LoginDocument = `
 }
     ${UserInfoFragmentDoc}`;
 export const useLoginMutation = <
-      TError = unknown,
+      TError = DataError,
       TContext = unknown
     >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) => 
     useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
@@ -605,7 +640,7 @@ export const LogoutDocument = `
 }
     `;
 export const useLogoutMutation = <
-      TError = unknown,
+      TError = DataError,
       TContext = unknown
     >(options?: UseMutationOptions<LogoutMutation, TError, LogoutMutationVariables, TContext>) => 
     useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
@@ -621,7 +656,7 @@ export const UserDocument = `
     ${UserInfoFragmentDoc}`;
 export const useUserQuery = <
       TData = UserQuery,
-      TError = unknown
+      TError = DataError
     >(
       variables?: UserQueryVariables, 
       options?: UseQueryOptions<UserQuery, TError, TData>
@@ -639,7 +674,7 @@ export const ResetPasswordRequestDocument = `
 }
     `;
 export const useResetPasswordRequestMutation = <
-      TError = unknown,
+      TError = DataError,
       TContext = unknown
     >(options?: UseMutationOptions<ResetPasswordRequestMutation, TError, ResetPasswordRequestMutationVariables, TContext>) => 
     useMutation<ResetPasswordRequestMutation, TError, ResetPasswordRequestMutationVariables, TContext>(
@@ -654,10 +689,35 @@ export const ResetPasswordDocument = `
 }
     ${UserInfoFragmentDoc}`;
 export const useResetPasswordMutation = <
-      TError = unknown,
+      TError = DataError,
       TContext = unknown
     >(options?: UseMutationOptions<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>) => 
     useMutation<ResetPasswordMutation, TError, ResetPasswordMutationVariables, TContext>(
       (variables?: ResetPasswordMutationVariables) => fetcher<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, variables)(),
       options
     );
+export const UserListDocument = `
+    query userList($search: UserSearch, $page: Int, $limit: Int) {
+  userList(search: $search, page: $page, limit: $limit) {
+    content {
+      ...UserInfo
+    }
+    page
+    last
+    count
+  }
+}
+    ${UserInfoFragmentDoc}`;
+export const useUserListQuery = <
+      TData = UserListQuery,
+      TError = DataError
+    >(
+      variables?: UserListQueryVariables, 
+      options?: UseQueryOptions<UserListQuery, TError, TData>
+    ) => 
+    useQuery<UserListQuery, TError, TData>(
+      ['userList', variables],
+      fetcher<UserListQuery, UserListQueryVariables>(UserListDocument, variables),
+      options
+    );
+useUserListQuery.getKey = (variables?: UserListQueryVariables) => ['userList', variables];

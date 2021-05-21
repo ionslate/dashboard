@@ -4,8 +4,10 @@ import AuthProvider from './components/AuthProvider';
 import Layout from './components/Layout';
 import MessageCard from './components/Message/MessageCard';
 import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
+import { UsersPage } from './pages/Users';
 
 function App() {
   return (
@@ -30,7 +32,7 @@ function App() {
               <Layout>
                 <Switch>
                   <Route path="/" exact>
-                    Dashboard
+                    <Dashboard />
                   </Route>
                   <ProtectedRoute
                     requiredRoles={['CONTENT_MANAGER']}
@@ -69,7 +71,7 @@ function App() {
                     Images
                   </ProtectedRoute>
                   <ProtectedRoute requiredRoles={['USER_ADMIN']} path="/users">
-                    Users
+                    <UsersPage />
                   </ProtectedRoute>
                   <Route>
                     <div className="flex h-full items-center justify-center">

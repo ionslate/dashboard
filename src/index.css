@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bottom-box-shadow {
+  position: relative;
+}
+
+.bottom-box-shadow:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 20px;
+  z-index: 1;
+  @apply shadow-lg;
+}
