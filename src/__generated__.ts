@@ -115,6 +115,10 @@ export type Mutation = {
   enableUser?: Maybe<Scalars['ID']>;
   createRule: Rule;
   updateRule: Rule;
+  createHackingDevice: HackingDevice;
+  updateHackingDevice: HackingDevice;
+  createHackingProgram: HackingProgram;
+  updateHackingProgram: HackingProgram;
   createAmmo: Ammo;
   updateAmmo: Ammo;
   createWeaponMode: WeaponMode;
@@ -122,10 +126,6 @@ export type Mutation = {
   removeWeaponMode?: Maybe<Scalars['ID']>;
   createWeapon: Weapon;
   updateWeapon: Weapon;
-  createHackingDevice: HackingDevice;
-  updateHackingDevice: HackingDevice;
-  createHackingProgram: HackingProgram;
-  updateHackingProgram: HackingProgram;
 };
 
 
@@ -163,6 +163,7 @@ export type MutationChangePasswordArgs = {
 export type MutationUpdateUserArgs = {
   userId: Scalars['ID'];
   request: UserAdminRequest;
+  logUserOut?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -189,6 +190,28 @@ export type MutationCreateRuleArgs = {
 export type MutationUpdateRuleArgs = {
   ruleId: Scalars['ID'];
   request: RuleRequest;
+};
+
+
+export type MutationCreateHackingDeviceArgs = {
+  request: HackingDeviceRequest;
+};
+
+
+export type MutationUpdateHackingDeviceArgs = {
+  hackingDeviceId: Scalars['ID'];
+  request: HackingDeviceRequest;
+};
+
+
+export type MutationCreateHackingProgramArgs = {
+  request: HackingProgramRequest;
+};
+
+
+export type MutationUpdateHackingProgramArgs = {
+  hackingProgramId: Scalars['ID'];
+  request: HackingProgramRequest;
 };
 
 
@@ -230,28 +253,6 @@ export type MutationCreateWeaponArgs = {
 export type MutationUpdateWeaponArgs = {
   weaponId: Scalars['ID'];
   request: WeaponRequest;
-};
-
-
-export type MutationCreateHackingDeviceArgs = {
-  request: HackingDeviceRequest;
-};
-
-
-export type MutationUpdateHackingDeviceArgs = {
-  hackingDeviceId: Scalars['ID'];
-  request: HackingDeviceRequest;
-};
-
-
-export type MutationCreateHackingProgramArgs = {
-  request: HackingProgramRequest;
-};
-
-
-export type MutationUpdateHackingProgramArgs = {
-  hackingProgramId: Scalars['ID'];
-  request: HackingProgramRequest;
 };
 
 export type PagedAmmo = {
@@ -316,14 +317,14 @@ export type Query = {
   userList: PagedUsers;
   ruleById: Rule;
   rulesList: PagedRules;
-  ammoById: Ammo;
-  ammoList: PagedAmmo;
-  weaponById: Weapon;
-  weaponsList: PagedWeapons;
   hackingDeviceById: HackingDevice;
   hackingDevicesList: PagedHackingDevices;
   hackingProgramById: HackingProgram;
   hackingProgramsList: PagedHackingPrograms;
+  ammoById: Ammo;
+  ammoList: PagedAmmo;
+  weaponById: Weapon;
+  weaponsList: PagedWeapons;
 };
 
 
@@ -351,30 +352,6 @@ export type QueryRulesListArgs = {
 };
 
 
-export type QueryAmmoByIdArgs = {
-  ammoId: Scalars['ID'];
-};
-
-
-export type QueryAmmoListArgs = {
-  search?: Maybe<Search>;
-  page?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryWeaponByIdArgs = {
-  weaponId: Scalars['ID'];
-};
-
-
-export type QueryWeaponsListArgs = {
-  search?: Maybe<Search>;
-  page?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryHackingDeviceByIdArgs = {
   hackingDeviceId: Scalars['ID'];
 };
@@ -393,6 +370,30 @@ export type QueryHackingProgramByIdArgs = {
 
 
 export type QueryHackingProgramsListArgs = {
+  search?: Maybe<Search>;
+  page?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryAmmoByIdArgs = {
+  ammoId: Scalars['ID'];
+};
+
+
+export type QueryAmmoListArgs = {
+  search?: Maybe<Search>;
+  page?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryWeaponByIdArgs = {
+  weaponId: Scalars['ID'];
+};
+
+
+export type QueryWeaponsListArgs = {
   search?: Maybe<Search>;
   page?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
@@ -434,6 +435,7 @@ export type User = {
   username: Scalars['String'];
   email: Scalars['String'];
   roles: Array<UserRole>;
+  active?: Maybe<Scalars['Boolean']>;
 };
 
 export type UserAdminRequest = {
@@ -606,8 +608,22 @@ export type UserListQuery = (
     & Pick<PagedUsers, 'page' | 'last' | 'count'>
     & { content: Array<(
       { __typename?: 'User' }
+      & Pick<User, 'active'>
       & UserInfoFragment
     )> }
+  ) }
+);
+
+export type AdminCreateUserMutationVariables = Exact<{
+  request: UserAdminRequest;
+}>;
+
+
+export type AdminCreateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { adminCreateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
   ) }
 );
 
@@ -701,6 +717,7 @@ export const UserListDocument = `
   userList(search: $search, page: $page, limit: $limit) {
     content {
       ...UserInfo
+      active
     }
     page
     last
@@ -721,3 +738,19 @@ export const useUserListQuery = <
       options
     );
 useUserListQuery.getKey = (variables?: UserListQueryVariables) => ['userList', variables];
+
+export const AdminCreateUserDocument = `
+    mutation adminCreateUser($request: UserAdminRequest!) {
+  adminCreateUser(request: $request) {
+    id
+  }
+}
+    `;
+export const useAdminCreateUserMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<AdminCreateUserMutation, TError, AdminCreateUserMutationVariables, TContext>) => 
+    useMutation<AdminCreateUserMutation, TError, AdminCreateUserMutationVariables, TContext>(
+      (variables?: AdminCreateUserMutationVariables) => fetcher<AdminCreateUserMutation, AdminCreateUserMutationVariables>(AdminCreateUserDocument, variables)(),
+      options
+    );

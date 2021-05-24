@@ -9,6 +9,7 @@ interface ModalProps {
   title?: string;
   initialFocus?: RefObject<HTMLElement>;
   description?: string;
+  closeOnDismiss?: boolean;
 }
 
 export default function Modal({
@@ -17,6 +18,7 @@ export default function Modal({
   title,
   initialFocus,
   description,
+  closeOnDismiss = true,
   children,
 }: PropsWithChildren<ModalProps>) {
   return (
@@ -26,7 +28,7 @@ export default function Modal({
         className="fixed inset-0 z-10 overflow-y-auto"
         static
         open={open}
-        onClose={onClose}
+        onClose={closeOnDismiss ? onClose : () => null}
         initialFocus={initialFocus}
       >
         <div className="min-h-screen px-4 text-center">

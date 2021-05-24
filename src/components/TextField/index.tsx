@@ -26,6 +26,7 @@ export interface TextFieldProps {
   fullWidth?: boolean;
   placeholder?: string;
   straightSide?: 'left' | 'right';
+  required?: boolean;
 }
 
 export default forwardRef(function TextField(
@@ -37,6 +38,7 @@ export default forwardRef(function TextField(
     fullWidth,
     straightSide,
     style,
+    required,
     ...props
   }: TextFieldProps,
   ref: Ref<HTMLInputElement>,
@@ -53,8 +55,10 @@ export default forwardRef(function TextField(
         <input
           id={id}
           ref={ref}
+          aria-required={required}
+          aria-invalid={!!error}
           className={classes(
-            'shadow-inner appearance-none border-t-2 border-b-2 py-2 px-3 text-gray-100 bg-[#08101A] focus:outline-none focus:ring-2 focus:border-transparent disabled:cursor-not-allowed',
+            'shadow-inner appearance-none border-t-2 border-b-2 py-2 px-3 text-gray-100 bg-[#08101A] disabled:bg-gray-800 disabled:italic focus:outline-none focus:ring-2 focus:border-transparent disabled:cursor-not-allowed',
             !straightSide && 'rounded border-l-2 border-r-2',
             straightSide === 'left' && 'border-l-[1px] rounded-r border-r-2',
             straightSide === 'right' && 'border-r-[1px] rounded-l border-l-2',
@@ -67,7 +71,7 @@ export default forwardRef(function TextField(
         />
       </div>
       {error && typeof error === 'string' && (
-        <div className="flex items-center">
+        <div className="flex items-center mt-1" role="alert">
           <IconContext.Provider value={{ className: 'mr-2 text-red-500' }}>
             <BiErrorCircle />
           </IconContext.Provider>

@@ -80,16 +80,16 @@ export default function Login() {
               />
             </div>
             <div>
+              <Button type="submit" color="green" fullWidth loading={isLoading}>
+                Login
+              </Button>
               {isError && (
-                <Message type="error" className="mb-4">
+                <Message type="error" className="mt-4">
                   {error?.code === 401
                     ? 'Invalid username or password'
                     : 'Unknown error, please try again'}
                 </Message>
               )}
-              <Button type="submit" color="green" fullWidth loading={isLoading}>
-                Login
-              </Button>
             </div>
           </form>
           <ResetPasswordRequest />

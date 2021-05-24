@@ -103,7 +103,7 @@ export default function Select<T>({
                 </span>
               </Listbox.Button>
               {error && typeof error === 'string' && (
-                <div className="flex items-center">
+                <div className="flex items-center mt-1">
                   <IconContext.Provider
                     value={{ className: 'mr-2 text-red-500' }}
                   >
@@ -122,7 +122,7 @@ export default function Select<T>({
             >
               <Listbox.Options
                 static
-                className="absolute w-full py-1 mt-1 overflow-auto text-base bg-[#08101A] rounded-sm shadow-lg max-h-60 ring-2 ring-green-200 focus:outline-none sm:text-sm z-10"
+                className="absolute w-full py-1 mt-1 overflow-auto text-sm bg-gray-700 rounded-sm shadow-lg max-h-60 ring-2 ring-green-200 focus:outline-none z-10"
               >
                 {options.map((option) => (
                   <Listbox.Option
@@ -131,7 +131,7 @@ export default function Select<T>({
                     className={({ active, disabled }) =>
                       classes(
                         disabled && 'text-gray-400 italic',
-                        active && 'bg-gray-700',
+                        active && 'bg-gray-600',
                         'select-none relative py-2 pl-10 pr-4',
                         disabled ? 'cursor-not-allowed' : 'cursor-pointer',
                       )

@@ -6,18 +6,22 @@ import {
   UserListQueryVariables,
 } from '../../__generated__';
 
+const QUERY_PREFIX = 'infiniteUserList';
+
 export const useUserListInfiniteQuery = (
   variables?: UserListQueryVariables,
   options?: UseInfiniteQueryOptions<UserListQuery, DataError, UserListQuery>,
 ) =>
   useInfiniteQuery<UserListQuery, DataError, UserListQuery>(
-    ['infiniteUserList', variables],
+    [QUERY_PREFIX, variables],
     ({ pageParam = 0 }) =>
       gqlRequest(UserListDocument, { page: pageParam, ...variables }),
     options,
   );
 
 useUserListInfiniteQuery.getKey = (variables?: UserListQueryVariables) => [
-  'infiniteUserList',
+  QUERY_PREFIX,
   variables,
 ];
+
+useUserListInfiniteQuery.queryPrefix = QUERY_PREFIX;

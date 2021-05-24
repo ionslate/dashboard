@@ -2,9 +2,16 @@ query userList($search: UserSearch, $page: Int, $limit: Int) {
   userList(search: $search, page: $page, limit: $limit) {
     content {
       ...UserInfo
+      active
     }
     page
     last
     count
+  }
+}
+
+mutation adminCreateUser($request: UserAdminRequest!) {
+  adminCreateUser(request: $request) {
+    id
   }
 }

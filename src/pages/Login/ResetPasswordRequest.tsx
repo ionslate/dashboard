@@ -32,7 +32,10 @@ export default function ResetPasswordRequest() {
       </button>
       <Modal
         open={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={() => {
+          setIsOpen(false);
+          setEmail('');
+        }}
         initialFocus={emailTextFieldRef}
         title="Reset Password"
         description="Enter your email below, and we'll send you a link to reset your password."

@@ -1,5 +1,14 @@
+export interface ValidationError {
+  field?: string;
+  message?: string;
+}
+
 export class DataError extends Error {
-  constructor(public message: string, public code?: number) {
+  constructor(
+    public message: string,
+    public validationError?: ValidationError,
+    public code?: number,
+  ) {
     super(message);
   }
 }
@@ -22,7 +31,11 @@ export async function gqlRequest<TData, TVariables>(
   if (json.errors) {
     const { message, extensions } = json.errors[0];
 
-    const error = new DataError(message, extensions.code);
+    const error = new DataError(
+      message,
+      extensions.validationError,
+      extensions.code,
+    );
     throw error;
   }
 
