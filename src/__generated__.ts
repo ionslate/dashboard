@@ -627,6 +627,21 @@ export type AdminCreateUserMutation = (
   ) }
 );
 
+export type UpdateUserMutationVariables = Exact<{
+  userId: Scalars['ID'];
+  request: UserAdminRequest;
+  logUserOut?: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  )> }
+);
+
 export const UserInfoFragmentDoc = `
     fragment UserInfo on User {
   id
@@ -752,5 +767,20 @@ export const useAdminCreateUserMutation = <
     >(options?: UseMutationOptions<AdminCreateUserMutation, TError, AdminCreateUserMutationVariables, TContext>) => 
     useMutation<AdminCreateUserMutation, TError, AdminCreateUserMutationVariables, TContext>(
       (variables?: AdminCreateUserMutationVariables) => fetcher<AdminCreateUserMutation, AdminCreateUserMutationVariables>(AdminCreateUserDocument, variables)(),
+      options
+    );
+export const UpdateUserDocument = `
+    mutation updateUser($userId: ID!, $request: UserAdminRequest!, $logUserOut: Boolean) {
+  updateUser(userId: $userId, request: $request, logUserOut: $logUserOut) {
+    id
+  }
+}
+    `;
+export const useUpdateUserMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) => 
+    useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
+      (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, variables)(),
       options
     );

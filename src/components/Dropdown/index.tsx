@@ -50,10 +50,12 @@ export default function Dropdown({
       {({ open }) => (
         <Tippy
           visible={open}
-          interactive={true}
+          interactive
+          animation
+          offset={[0, 6]}
           placement={placement}
           render={(attrs) => (
-            <div className={classes('z-30', menuProps?.className)} {...attrs}>
+            <div className={classes('z-10', menuProps?.className)} {...attrs}>
               <Transition
                 enter="transition ease-out duration-100"
                 enterFrom="transform opacity-0 scale-95"

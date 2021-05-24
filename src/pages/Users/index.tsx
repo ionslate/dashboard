@@ -65,7 +65,7 @@ export function UsersPage() {
             </span>
             <span />
           </div>
-          {users.length ? (
+          {users.length || isLoading ? (
             <Virtuoso
               className="flex-1 bg-gray-700 bg-opacity-30 rounded-b-md overflow-x-hidden"
               data={users}
