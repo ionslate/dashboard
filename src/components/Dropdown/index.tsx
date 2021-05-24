@@ -1,18 +1,17 @@
 import { Menu, Transition } from '@headlessui/react';
+import Tippy, { TippyProps } from '@tippyjs/react/headless';
 import {
   ButtonHTMLAttributes,
   CSSProperties,
   DetailedHTMLProps,
-  Fragment,
   PropsWithChildren,
-  useState,
 } from 'react';
 import { IconContext, IconType } from 'react-icons';
-import { usePopper } from 'react-popper';
 import { classes } from '../../utils';
 import Button from '../Button';
 
 export interface DropdownProps {
+  placement?: TippyProps['placement'];
   variant?: 'solid' | 'outline' | 'open';
   color?: 'green' | 'pink' | 'gray' | 'red';
   disabled?: boolean;
@@ -39,40 +38,9 @@ export default function Dropdown({
   className,
   style,
   menuProps,
+  placement,
   children,
 }: PropsWithChildren<DropdownProps>) {
-  const [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
-    null,
-  );
-  const [popperElement, setPopperElement] = useState<HTMLElement | null>(null);
-
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: 'bottom-start',
-    modifiers: [
-      {
-        name: 'preventOverflow',
-        options: {
-          boundary: 'clippingParents',
-        },
-      },
-      {
-        name: 'flip',
-        options: {
-          allowedAutoPlacements: ['bottom-end'],
-          fallbackPlacements: ['bottom-end', 'top-end'],
-          altBoundary: true,
-          padding: 120,
-        },
-      },
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 4],
-        },
-      },
-    ],
-  });
-
   return (
     <Menu
       as="div"
@@ -80,7 +48,33 @@ export default function Dropdown({
       style={style}
     >
       {({ open }) => (
-        <>
+        <Tippy
+          visible={open}
+          interactive={true}
+          placement={placement}
+          render={(attrs) => (
+            <div className={classes('z-30', menuProps?.className)} {...attrs}>
+              <Transition
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+                show={open}
+              >
+                <>
+                  <Menu.Items
+                    static
+                    className="overflow-auto py-1 text-base bg-gray-700 rounded-sm shadow-lg max-h-60 ring-2 ring-green-200 focus:outline-none"
+                  >
+                    {children}
+                  </Menu.Items>
+                </>
+              </Transition>
+            </div>
+          )}
+        >
           <Menu.Button
             as={Button}
             variant={variant}
@@ -89,35 +83,10 @@ export default function Dropdown({
             size={size}
             icon={icon}
             iconPosition={iconPosition}
-            // ref={setReferenceElement}
           >
             {buttonText}
           </Menu.Button>
-          <div
-            ref={setPopperElement}
-            // style={{ ...styles.popper, ...menuProps?.style }}
-            // {...attributes.popper}
-            className={classes('z-30', menuProps?.className)}
-          >
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-              show={open}
-            >
-              <Menu.Items
-                static
-                className="overflow-auto py-1 text-base bg-gray-700 rounded-sm shadow-lg max-h-60 ring-2 ring-green-200 focus:outline-none"
-              >
-                {children}
-              </Menu.Items>
-            </Transition>
-          </div>
-        </>
+        </Tippy>
       )}
     </Menu>
   );
