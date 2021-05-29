@@ -34,11 +34,8 @@ export function ConfirmForceLogoutUser({
       open={open}
       confirmColor="pink"
       confirmText="Yes, Logout"
-      onCancel={onClose}
-      onConfirm={() => {
-        disableUser({ userId });
-        onClose();
-      }}
+      onClose={onClose}
+      onConfirm={() => disableUser({ userId })}
     />
   );
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { IconContext } from 'react-icons';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { FiChevronDown, FiPower } from 'react-icons/fi';
@@ -10,11 +11,13 @@ import {
   useUserQuery,
 } from '../../__generated__';
 import Dropdown, { DropdownItem } from '../Dropdown';
+import ConfirmModal from '../Modal/ConfirmModal';
+import ChangePasswordModal from './ChangePasswordModal';
 
 export default function UserMenu({ user }: { user?: User | null }) {
   const queryClient = useQueryClient();
 
-  const { mutate: logout } = useLogoutMutation({
+  const { mutate: logout, isLoading: isLogoutLoading } = useLogoutMutation({
     onSuccess: () => {
       queryClient.setQueryData<UserQuery>(useUserQuery.getKey({}), {
         user: null,
@@ -22,6 +25,13 @@ export default function UserMenu({ user }: { user?: User | null }) {
       queryClient.clear();
     },
   });
+
+  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(
+    false,
+  );
+  const [isConfirmLogoutModalOpen, setIsConfirmLogoutModalOpen] = useState(
+    false,
+  );
 
   if (!user) {
     return null;
@@ -45,11 +55,34 @@ export default function UserMenu({ user }: { user?: User | null }) {
         }
         menuProps={{ className: 'w-48' }}
       >
-        <DropdownItem icon={RiUserSettingsLine}>Change Password</DropdownItem>
-        <DropdownItem color="red" icon={FiPower} onClick={() => logout({})}>
+        <DropdownItem
+          icon={RiUserSettingsLine}
+          onClick={() => setIsChangePasswordModalOpen(true)}
+        >
+          Change Password
+        </DropdownItem>
+        <DropdownItem
+          color="red"
+          icon={FiPower}
+          onClick={() => setIsConfirmLogoutModalOpen(true)}
+        >
           Logout
         </DropdownItem>
       </Dropdown>
+      <ChangePasswordModal
+        open={isChangePasswordModalOpen}
+        onClose={() => setIsChangePasswordModalOpen(false)}
+      />
+      <ConfirmModal
+        open={isConfirmLogoutModalOpen}
+        onClose={() => setIsConfirmLogoutModalOpen(false)}
+        onConfirm={() => logout({})}
+        confirmColor="pink"
+        confirmText="Yes, Logout"
+        title="Logout?"
+        description="Are you sure you want to logout?"
+        loading={isLogoutLoading}
+      />
     </div>
   );
 }

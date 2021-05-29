@@ -5,7 +5,7 @@ import Button from '../Button';
 interface ConfirmModalProps {
   open: boolean;
   onConfirm: () => void;
-  onCancel: () => void;
+  onClose: () => void;
   title: string;
   description: string;
   confirmText?: string;
@@ -16,7 +16,7 @@ interface ConfirmModalProps {
 export default function ConfirmModal({
   open,
   onConfirm,
-  onCancel,
+  onClose,
   title,
   description,
   confirmText = 'Confirm',
@@ -28,7 +28,7 @@ export default function ConfirmModal({
     <Modal
       title={title}
       open={open}
-      onClose={onCancel}
+      onClose={onClose}
       initialFocus={cancelButtonRef}
       description={description}
     >
@@ -36,15 +36,18 @@ export default function ConfirmModal({
         <Button
           variant="open"
           className="mr-4"
-          onClick={onCancel}
+          onClick={onClose}
+          disabled={loading}
           ref={cancelButtonRef}
         >
           Cancel
         </Button>
         <Button
           color={confirmColor}
-          className="mr-4"
-          onClick={onConfirm}
+          onClick={() => {
+            onConfirm();
+            onClose();
+          }}
           loading={loading}
         >
           {confirmText}

@@ -1,6 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, PropsWithChildren, RefObject } from 'react';
-import { classes } from '../../utils';
 import CloseButton from '../Button/CloseButton';
 
 interface SidePanelProps {
@@ -63,7 +62,7 @@ export default function SidePanel({
                     </Dialog.Title>
                     <CloseButton onClick={onClose} />
                   </div>
-                  <hr className={classes('mt-4 mb-8')} />
+                  <hr className="mt-4 mb-8" />
                 </>
               )}
               <div className="p-6 pt-0 flex-1">{children}</div>

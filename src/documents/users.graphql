@@ -41,3 +41,7 @@ mutation disableUser($userId: ID!) {
 mutation forceLogoutUser($userId: ID!) {
   forceLogoutUser(userId: $userId)
 }
+
+mutation changePassword($request: ChangePasswordRequest!) {
+  changePassword(request: $request)
+}

@@ -1,6 +1,7 @@
 import debounce from 'lodash/debounce';
 import { VscSearchStop } from 'react-icons/vsc';
 import { Virtuoso } from 'react-virtuoso';
+import Loader from '../../components/Loader';
 import MessageCard from '../../components/Message/MessageCard';
 import { useAppDispatch, useAppSelector } from '../../utils/reduxHooks';
 import { UserSearch } from '../../__generated__';
@@ -67,13 +68,9 @@ export function UsersPage() {
             overscan={200}
             itemContent={(_, user) => <UserRow user={user} />}
             components={{
-              Footer: () => {
-                return isLoading || isFetchingNextPage ? (
-                  <div className="p-4 flex justify-center">Loading...</div>
-                ) : (
-                  <div className="pb-4" />
-                );
-              },
+              Footer: () => (
+                <Loader active={isLoading || isFetchingNextPage} size="lg" />
+              ),
             }}
           />
         ) : (

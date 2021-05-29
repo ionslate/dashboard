@@ -34,11 +34,8 @@ export function ConfirmRemoveUser({
       confirmText="Yes, Delete"
       open={open}
       confirmColor="red"
-      onCancel={onClose}
-      onConfirm={() => {
-        disableUser({ userId });
-        onClose();
-      }}
+      onClose={onClose}
+      onConfirm={() => disableUser({ userId })}
     />
   );
 }

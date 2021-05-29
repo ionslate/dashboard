@@ -688,6 +688,16 @@ export type ForceLogoutUserMutation = (
   & Pick<Mutation, 'forceLogoutUser'>
 );
 
+export type ChangePasswordMutationVariables = Exact<{
+  request: ChangePasswordRequest;
+}>;
+
+
+export type ChangePasswordMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'changePassword'>
+);
+
 export const UserInfoFragmentDoc = `
     fragment UserInfo on User {
   id
@@ -880,5 +890,18 @@ export const useForceLogoutUserMutation = <
     >(options?: UseMutationOptions<ForceLogoutUserMutation, TError, ForceLogoutUserMutationVariables, TContext>) => 
     useMutation<ForceLogoutUserMutation, TError, ForceLogoutUserMutationVariables, TContext>(
       (variables?: ForceLogoutUserMutationVariables) => fetcher<ForceLogoutUserMutation, ForceLogoutUserMutationVariables>(ForceLogoutUserDocument, variables)(),
+      options
+    );
+export const ChangePasswordDocument = `
+    mutation changePassword($request: ChangePasswordRequest!) {
+  changePassword(request: $request)
+}
+    `;
+export const useChangePasswordMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<ChangePasswordMutation, TError, ChangePasswordMutationVariables, TContext>) => 
+    useMutation<ChangePasswordMutation, TError, ChangePasswordMutationVariables, TContext>(
+      (variables?: ChangePasswordMutationVariables) => fetcher<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, variables)(),
       options
     );
