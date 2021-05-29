@@ -113,6 +113,7 @@ export type Mutation = {
   remove?: Maybe<Scalars['ID']>;
   disableUser?: Maybe<Scalars['ID']>;
   enableUser?: Maybe<Scalars['ID']>;
+  forceLogoutUser?: Maybe<Scalars['ID']>;
   createRule: Rule;
   updateRule: Rule;
   createHackingDevice: HackingDevice;
@@ -178,6 +179,11 @@ export type MutationDisableUserArgs = {
 
 
 export type MutationEnableUserArgs = {
+  userId: Scalars['ID'];
+};
+
+
+export type MutationForceLogoutUserArgs = {
   userId: Scalars['ID'];
 };
 
@@ -642,6 +648,46 @@ export type UpdateUserMutation = (
   )> }
 );
 
+export type RemoveUserMutationVariables = Exact<{
+  userId: Scalars['ID'];
+}>;
+
+
+export type RemoveUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'removeUser'>
+);
+
+export type EnableUserMutationVariables = Exact<{
+  userId: Scalars['ID'];
+}>;
+
+
+export type EnableUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'enableUser'>
+);
+
+export type DisableUserMutationVariables = Exact<{
+  userId: Scalars['ID'];
+}>;
+
+
+export type DisableUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'disableUser'>
+);
+
+export type ForceLogoutUserMutationVariables = Exact<{
+  userId: Scalars['ID'];
+}>;
+
+
+export type ForceLogoutUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'forceLogoutUser'>
+);
+
 export const UserInfoFragmentDoc = `
     fragment UserInfo on User {
   id
@@ -782,5 +828,57 @@ export const useUpdateUserMutation = <
     >(options?: UseMutationOptions<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>) => 
     useMutation<UpdateUserMutation, TError, UpdateUserMutationVariables, TContext>(
       (variables?: UpdateUserMutationVariables) => fetcher<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, variables)(),
+      options
+    );
+export const RemoveUserDocument = `
+    mutation removeUser($userId: ID!) {
+  removeUser(userId: $userId)
+}
+    `;
+export const useRemoveUserMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<RemoveUserMutation, TError, RemoveUserMutationVariables, TContext>) => 
+    useMutation<RemoveUserMutation, TError, RemoveUserMutationVariables, TContext>(
+      (variables?: RemoveUserMutationVariables) => fetcher<RemoveUserMutation, RemoveUserMutationVariables>(RemoveUserDocument, variables)(),
+      options
+    );
+export const EnableUserDocument = `
+    mutation enableUser($userId: ID!) {
+  enableUser(userId: $userId)
+}
+    `;
+export const useEnableUserMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<EnableUserMutation, TError, EnableUserMutationVariables, TContext>) => 
+    useMutation<EnableUserMutation, TError, EnableUserMutationVariables, TContext>(
+      (variables?: EnableUserMutationVariables) => fetcher<EnableUserMutation, EnableUserMutationVariables>(EnableUserDocument, variables)(),
+      options
+    );
+export const DisableUserDocument = `
+    mutation disableUser($userId: ID!) {
+  disableUser(userId: $userId)
+}
+    `;
+export const useDisableUserMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<DisableUserMutation, TError, DisableUserMutationVariables, TContext>) => 
+    useMutation<DisableUserMutation, TError, DisableUserMutationVariables, TContext>(
+      (variables?: DisableUserMutationVariables) => fetcher<DisableUserMutation, DisableUserMutationVariables>(DisableUserDocument, variables)(),
+      options
+    );
+export const ForceLogoutUserDocument = `
+    mutation forceLogoutUser($userId: ID!) {
+  forceLogoutUser(userId: $userId)
+}
+    `;
+export const useForceLogoutUserMutation = <
+      TError = DataError,
+      TContext = unknown
+    >(options?: UseMutationOptions<ForceLogoutUserMutation, TError, ForceLogoutUserMutationVariables, TContext>) => 
+    useMutation<ForceLogoutUserMutation, TError, ForceLogoutUserMutationVariables, TContext>(
+      (variables?: ForceLogoutUserMutationVariables) => fetcher<ForceLogoutUserMutation, ForceLogoutUserMutationVariables>(ForceLogoutUserDocument, variables)(),
       options
     );

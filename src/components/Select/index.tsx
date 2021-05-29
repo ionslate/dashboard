@@ -75,8 +75,8 @@ export default function Select<T>({
               visible={open}
               placement="bottom"
               interactive
-              offset={[0, 6]}
               animation
+              offset={[0, 6]}
               render={(attr) => (
                 <div
                   className="z-10"

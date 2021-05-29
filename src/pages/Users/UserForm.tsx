@@ -1,5 +1,6 @@
 import { ErrorMessage } from '@hookform/error-message';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { IconContext } from 'react-icons';
@@ -7,6 +8,7 @@ import { BiErrorCircle } from 'react-icons/bi';
 import * as yup from 'yup';
 import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
+import Message from '../../components/Message';
 import TextField from '../../components/TextField';
 import Toggle from '../../components/Toggle';
 import { classes, ValidationError } from '../../utils';
@@ -88,8 +90,7 @@ const defaultValues = {
 
 export interface UserFormProps {
   user?: User;
-  onSubmit: (user: UserAdminRequest) => void;
-  onCancel: () => void;
+  onSubmit: (user: UserAdminRequest, logUserOut?: boolean) => void;
   resetApiError?: () => void;
   validationError?: ValidationError;
   loading?: boolean;
@@ -98,7 +99,6 @@ export interface UserFormProps {
 export default function UserForm({
   user,
   onSubmit,
-  onCancel,
   resetApiError,
   validationError,
   loading,
@@ -114,6 +114,7 @@ export default function UserForm({
     defaultValues: { ...defaultValues, ...user },
     resolver: yupResolver(userSchema),
   });
+  const [logUserOut, setLogUserOut] = useState(false);
 
   useEffect(() => {
     setFocus('username');
@@ -132,144 +133,166 @@ export default function UserForm({
 
   return (
     <form
-      onSubmit={handleSubmit(
-        ({ requirePassword, confirmPassword, ...values }) => onSubmit(values),
+      className="flex flex-col h-full"
+      onSubmit={handleSubmit((values) =>
+        onSubmit(
+          {
+            username: values.username,
+            email: values.email,
+            roles: values.roles,
+            password: values.password,
+          },
+          logUserOut,
+        ),
       )}
     >
-      <div>
-        <TextField
-          label="username"
-          required
-          id="create-edit-username"
-          className="mb-2"
-          error={
-            (validationError?.field === 'username' &&
-              validationError.message) ||
-            errors.username?.message
-          }
-          {...usernameRegister}
-          onChange={(e) => {
-            usernameOnChange(e);
-            if (validationError?.field === 'username') {
-              resetApiError?.();
-            }
-          }}
-        />
-      </div>
-      <div>
-        <TextField
-          label="email"
-          required
-          id="create-edit-email"
-          className="mb-2"
-          error={
-            (validationError?.field === 'email' && validationError.message) ||
-            errors.email?.message
-          }
-          {...emailRegister}
-          onChange={(e) => {
-            emailOnChange(e);
-            if (validationError?.field === 'email') {
-              resetApiError?.();
-            }
-          }}
-        />
-      </div>
-      <div className="mb-4">
-        <fieldset
-          className={classes(
-            'border-2 rounded p-3',
-            errors.roles ? 'border-red-600' : 'border-gray-500',
-          )}
-          aria-required
-          aria-invalid={!!errors.roles}
-        >
-          <legend className="text-sm uppercase font-bold px-2 text-gray-400">
-            Roles
-          </legend>
-          <Checkbox
-            id="user-role"
-            label="User"
-            value="USER"
-            className="mb-1"
-            {...register('roles.0')}
-          />
-          <Checkbox
-            id="user-admin-role"
-            label="User Admin"
-            value="USER_ADMIN"
-            className="mb-1"
-            {...register('roles.1')}
-          />
-          <Checkbox
-            id="content-manager-role"
-            label="Content Manager"
-            value="CONTENT_MANAGER"
-            className="mb-1"
-            {...register('roles.2')}
-          />
-          <Checkbox
-            id="content-publisher-role"
-            label="Content Publisher"
-            value="CONTENT_PUBLISHER"
-            {...register('roles.3')}
-          />
-        </fieldset>
-        <ErrorMessage
-          errors={errors}
-          name="roles"
-          render={({ message }) => (
-            <div className="flex items-center mt-1" role="alert">
-              <IconContext.Provider value={{ className: 'mr-2 text-red-500' }}>
-                <BiErrorCircle />
-              </IconContext.Provider>
-              <span className="text-red-500 text-sm flex-1">{message}</span>
-            </div>
-          )}
-        />
-      </div>
-      <Controller
-        control={control}
-        name="requirePassword"
-        render={({ field }) => (
-          <Toggle
-            checked={field.value}
-            onChange={field.onChange}
+      <div className="flex-1">
+        <div>
+          <TextField
+            label="username"
+            required
+            id="create-edit-username"
             className="mb-2"
-            label="Set Password?"
+            error={
+              (validationError?.field === 'username' &&
+                validationError.message) ||
+              errors.username?.message
+            }
+            {...usernameRegister}
+            onChange={(e) => {
+              usernameOnChange(e);
+              if (validationError?.field === 'username') {
+                resetApiError?.();
+              }
+            }}
           />
-        )}
-      />
-      <div className="mb-10">
-        <TextField
-          label="password"
-          id="create-edit-password"
-          className="mb-2"
-          type="password"
-          disabled={!watch().requirePassword}
-          required={watch().requirePassword}
-          error={errors.password?.message}
-          {...register('password')}
+        </div>
+        <div>
+          <TextField
+            label="email"
+            required
+            id="create-edit-email"
+            className="mb-2"
+            error={
+              (validationError?.field === 'email' && validationError.message) ||
+              errors.email?.message
+            }
+            {...emailRegister}
+            onChange={(e) => {
+              emailOnChange(e);
+              if (validationError?.field === 'email') {
+                resetApiError?.();
+              }
+            }}
+          />
+        </div>
+        <div className="mb-4">
+          <fieldset
+            className={classes(
+              'border-2 rounded p-3',
+              errors.roles ? 'border-red-600' : 'border-gray-500',
+            )}
+            aria-required
+            aria-invalid={!!errors.roles}
+          >
+            <legend className="text-sm uppercase font-bold px-2 text-gray-400">
+              Roles
+            </legend>
+            <Checkbox
+              id="user-role"
+              label="User"
+              value="USER"
+              className="mb-1"
+              {...register('roles.0')}
+            />
+            <Checkbox
+              id="user-admin-role"
+              label="User Admin"
+              value="USER_ADMIN"
+              className="mb-1"
+              {...register('roles.1')}
+            />
+            <Checkbox
+              id="content-manager-role"
+              label="Content Manager"
+              value="CONTENT_MANAGER"
+              className="mb-1"
+              {...register('roles.2')}
+            />
+            <Checkbox
+              id="content-publisher-role"
+              label="Content Publisher"
+              value="CONTENT_PUBLISHER"
+              {...register('roles.3')}
+            />
+          </fieldset>
+          <ErrorMessage
+            errors={errors}
+            name="roles"
+            render={({ message }) => (
+              <div className="flex items-center mt-1" role="alert">
+                <IconContext.Provider
+                  value={{ className: 'mr-2 text-red-500' }}
+                >
+                  <BiErrorCircle />
+                </IconContext.Provider>
+                <span className="text-red-500 text-sm flex-1">{message}</span>
+              </div>
+            )}
+          />
+        </div>
+        <Controller
+          control={control}
+          name="requirePassword"
+          render={({ field }) => (
+            <Toggle
+              checked={field.value}
+              onChange={field.onChange}
+              className="mb-2"
+              label="Set Password?"
+            />
+          )}
         />
-        <TextField
-          label="confirm password"
-          id="confirm-create-edit-password"
-          className="mb-2"
-          type="password"
-          disabled={!watch().requirePassword}
-          required={watch().requirePassword}
-          error={errors.confirmPassword?.message}
-          {...register('confirmPassword')}
-        />
+        <div>
+          <TextField
+            label="password"
+            id="create-edit-password"
+            className="mb-2"
+            type="password"
+            disabled={!watch().requirePassword}
+            required={watch().requirePassword}
+            error={errors.password?.message}
+            {...register('password')}
+          />
+          <TextField
+            label="confirm password"
+            id="confirm-create-edit-password"
+            className="mb-2"
+            type="password"
+            disabled={!watch().requirePassword}
+            required={watch().requirePassword}
+            error={errors.confirmPassword?.message}
+            {...register('confirmPassword')}
+          />
+          {!!user && watch().requirePassword && (
+            <Message type="warn" className="mt-4">
+              Setting the password will log the user out.
+            </Message>
+          )}
+          {!!user && (
+            <Toggle
+              disabled={watch().requirePassword}
+              checked={logUserOut}
+              onChange={setLogUserOut}
+              className="mb-2 mt-8"
+              label="Logout User?"
+            />
+          )}
+        </div>
       </div>
-      <div className="flex justify-end">
-        <Button variant="open" onClick={onCancel} className="mr-2">
-          Cancel
-        </Button>
-        <Button type="submit" color="green" loading={loading}>
-          {user ? 'Update' : 'Create'} User
-        </Button>
-      </div>
+      <Button type="submit" color="green" loading={loading} fullWidth>
+        {user ? 'Update' : 'Create'} User
+      </Button>
     </form>
   );
 }

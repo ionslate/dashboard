@@ -1,5 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import Tippy, { TippyProps } from '@tippyjs/react/headless';
+import { ReactNode } from 'react';
 import {
   ButtonHTMLAttributes,
   CSSProperties,
@@ -18,7 +19,7 @@ export interface DropdownProps {
   size?: 'sm' | 'normal' | 'lg';
   icon?: IconType;
   iconPosition?: 'left' | 'right';
-  buttonText?: string;
+  buttonText?: ReactNode;
   className?: string;
   style?: CSSProperties;
   menuProps?: {
@@ -38,7 +39,7 @@ export default function Dropdown({
   className,
   style,
   menuProps,
-  placement,
+  placement = 'bottom',
   children,
 }: PropsWithChildren<DropdownProps>) {
   return (
@@ -109,6 +110,7 @@ interface DropdownItemProps
   disabled?: boolean;
   icon?: IconType;
   color?: 'green' | 'red' | 'pink' | 'gray';
+  indent?: boolean;
 }
 
 export function DropdownItem({
@@ -117,6 +119,7 @@ export function DropdownItem({
   color = 'gray',
   className,
   children,
+  indent,
   ...props
 }: PropsWithChildren<DropdownItemProps>) {
   return (
@@ -135,11 +138,15 @@ export function DropdownItem({
           {...props}
         >
           {IconComponent ? (
-            <IconContext.Provider value={{ className: 'w-5 h-5 mr-4' }}>
+            <IconContext.Provider
+              value={{
+                className: classes('w-5 h-5 mr-4', dropdownItemColorMap[color]),
+              }}
+            >
               <IconComponent aria-hidden="true" />
             </IconContext.Provider>
           ) : (
-            <span className="w-5 h-5 mr-4" />
+            indent && <span className="w-5 h-5 mr-4" />
           )}
           <div className="flex-1 text-left">{children}</div>
         </button>

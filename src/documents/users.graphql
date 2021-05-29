@@ -25,3 +25,19 @@ mutation updateUser(
     id
   }
 }
+
+mutation removeUser($userId: ID!) {
+  removeUser(userId: $userId)
+}
+
+mutation enableUser($userId: ID!) {
+  enableUser(userId: $userId)
+}
+
+mutation disableUser($userId: ID!) {
+  disableUser(userId: $userId)
+}
+
+mutation forceLogoutUser($userId: ID!) {
+  forceLogoutUser(userId: $userId)
+}

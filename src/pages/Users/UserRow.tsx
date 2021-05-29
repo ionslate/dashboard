@@ -1,14 +1,29 @@
 import { useState } from 'react';
 import { memo } from 'react';
-import { BiUserCheck, BiUserMinus, BiUserX } from 'react-icons/bi';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import {
+  BiUserCheck,
+  BiUserMinus,
+  BiUserX,
+  BiTrash,
+  BiEdit,
+} from 'react-icons/bi';
 import { FiMoreVertical } from 'react-icons/fi';
-import { MdEdit } from 'react-icons/md';
+import { useQueryClient } from 'react-query';
 import Badge from '../../components/Badge';
 import Dropdown, { DropdownItem } from '../../components/Dropdown';
+import SidePanel from '../../components/SidePanel';
 import { classes } from '../../utils';
-import { User } from '../../__generated__';
-import UserModal from './UserModal';
+import { useAppSelector } from '../../utils/reduxHooks';
+import {
+  useEnableUserMutation,
+  User,
+  useUpdateUserMutation,
+} from '../../__generated__';
+import { ConfirmDisableUser } from './ConfirmDisableUser';
+import { ConfirmForceLogoutUser } from './confirmForceLogoutUser';
+import { ConfirmRemoveUser } from './ConfirmRemoveUser';
+import UserForm from './UserForm';
+import { useUserListInfiniteQuery } from './useUserListInfiniteQuery';
 
 interface UserRowProps {
   user: User;
@@ -16,13 +31,72 @@ interface UserRowProps {
 
 export default memo(function UserRow({ user }: UserRowProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isForceLogoutModalOpen, setIsForceLogoutModalOpen] = useState(false);
+  const [isDisableModalOpen, setIsDisableModalOpen] = useState(false);
+  const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false);
+
+  const userSearch = useAppSelector((state) => state.userSearch);
+
+  const queryClient = useQueryClient();
+  const {
+    mutate: updateUser,
+    error,
+    reset,
+    isLoading: isUpdateUserLoading,
+  } = useUpdateUserMutation({
+    onSuccess: () => {
+      queryClient.refetchQueries(
+        useUserListInfiniteQuery.getKey({ search: userSearch }),
+      );
+      setIsEditModalOpen(false);
+    },
+  });
+  const { mutate: enableUser } = useEnableUserMutation({
+    onSuccess: () => {
+      queryClient.refetchQueries(
+        useUserListInfiniteQuery.getKey({ search: userSearch }),
+      );
+    },
+  });
 
   return (
     <>
-      <UserModal
+      <SidePanel
+        title="Update User"
         open={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        user={user}
+      >
+        <UserForm
+          user={user}
+          onSubmit={(request, logUserOut) => {
+            updateUser({
+              userId: user.id,
+              request,
+              logUserOut: logUserOut || !!request.password,
+            });
+          }}
+          validationError={error?.validationError}
+          resetApiError={reset}
+          loading={isUpdateUserLoading}
+        />
+      </SidePanel>
+      <ConfirmDisableUser
+        open={isDisableModalOpen}
+        onClose={() => setIsDisableModalOpen(false)}
+        userId={user.id}
+        username={user.username}
+      />
+      <ConfirmForceLogoutUser
+        open={isForceLogoutModalOpen}
+        onClose={() => setIsForceLogoutModalOpen(false)}
+        userId={user.id}
+        username={user.username}
+      />
+      <ConfirmRemoveUser
+        open={isRemoveUserModalOpen}
+        onClose={() => setIsRemoveUserModalOpen(false)}
+        userId={user.id}
+        username={user.username}
       />
       <div className="px-4">
         <div className="grid grid-cols-12 gap-1 items-center border-b-2 border-gray-500 py-4">
@@ -51,18 +125,36 @@ export default memo(function UserRow({ user }: UserRowProps) {
               menuProps={{ className: 'w-48' }}
             >
               <DropdownItem
-                icon={MdEdit}
+                icon={BiEdit}
                 onClick={() => setIsEditModalOpen(true)}
               >
                 Edit
               </DropdownItem>
-              <DropdownItem icon={user.active ? BiUserX : BiUserCheck}>
+              <DropdownItem
+                icon={user.active ? BiUserX : BiUserCheck}
+                onClick={() => {
+                  if (user.active) {
+                    setIsDisableModalOpen(true);
+                  } else {
+                    enableUser({ userId: user.id });
+                  }
+                }}
+              >
                 {user.active ? 'Disable' : 'Enable'}
               </DropdownItem>
-              <DropdownItem icon={BiUserMinus}>Force Logout</DropdownItem>
+              <DropdownItem
+                icon={BiUserMinus}
+                onClick={() => setIsForceLogoutModalOpen(true)}
+              >
+                Force Logout
+              </DropdownItem>
               <hr className="my-1" />
               <div>
-                <DropdownItem icon={FaRegTrashAlt} color="red">
+                <DropdownItem
+                  icon={BiTrash}
+                  color="red"
+                  onClick={() => setIsRemoveUserModalOpen(true)}
+                >
                   Delete
                 </DropdownItem>
               </div>

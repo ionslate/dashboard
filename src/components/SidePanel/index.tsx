@@ -3,24 +3,22 @@ import { Fragment, PropsWithChildren, RefObject } from 'react';
 import { classes } from '../../utils';
 import CloseButton from '../Button/CloseButton';
 
-interface ModalProps {
+interface SidePanelProps {
   open: boolean;
   onClose: () => void;
   title?: string;
   initialFocus?: RefObject<HTMLElement>;
-  description?: string;
   closeOnDismiss?: boolean;
 }
 
-export default function Modal({
+export default function SidePanel({
   open,
   onClose,
   title,
   initialFocus,
-  description,
   closeOnDismiss = true,
   children,
-}: PropsWithChildren<ModalProps>) {
+}: PropsWithChildren<SidePanelProps>) {
   return (
     <Transition show={open} as={Fragment}>
       <Dialog
@@ -31,7 +29,7 @@ export default function Modal({
         onClose={closeOnDismiss ? onClose : () => null}
         initialFocus={initialFocus}
       >
-        <div className="min-h-screen px-4 text-center">
+        <div className="min-h-screen">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-200"
@@ -44,21 +42,16 @@ export default function Modal({
             <Dialog.Overlay className="fixed inset-0 bg-black opacity-60" />
           </Transition.Child>
 
-          {/* This element is to trick the browser into centering the modal contents. */}
-          <span
-            className="inline-block h-screen align-middle"
-            aria-hidden="true"
-          />
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-200"
-            enterFrom="opacity-0 translate-y-4"
-            enterTo="opacity-100 translate-y-0"
-            leave="ease-in duration-100"
-            leaveFrom="opacity-100 translate-y-4"
-            leaveTo="opacity-0 translate-y-4"
+            enterFrom="opacity-0 translate-x-full"
+            enterTo="opacity-100 translate-x-0"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 translate-x-0"
+            leaveTo="opacity-0 translate-x-full"
           >
-            <div className="inline-block w-full max-w-md text-gray-200 overflow-hidden text-left align-middle transition-all transform bg-gray-700 shadow-xl rounded-lg border-l-8 border-indigo-400 border-opacity-40">
+            <div className="w-full max-w-md text-gray-200 overflow-hidden text-left transition-all transform bg-gray-700 shadow-xl rounded-l-lg border-l-8 border-blue-400 border-opacity-40 fixed right-0 h-full flex flex-col">
               {title && (
                 <>
                   <div className="flex items-center justify-between p-6 pb-0">
@@ -70,17 +63,10 @@ export default function Modal({
                     </Dialog.Title>
                     <CloseButton onClick={onClose} />
                   </div>
-                  <hr
-                    className={classes('mt-4', description ? 'mb-4' : 'mb-8')}
-                  />
+                  <hr className={classes('mt-4 mb-8')} />
                 </>
               )}
-              <div className="p-6 pt-0">
-                {description && (
-                  <p className="mb-4 text-gray-200 text-lg">{description}</p>
-                )}
-                {children}
-              </div>
+              <div className="p-6 pt-0 flex-1">{children}</div>
             </div>
           </Transition.Child>
         </div>

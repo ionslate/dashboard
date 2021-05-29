@@ -44,7 +44,12 @@ export default function Toggle({
           />
         </Switch>
         {label && (
-          <Switch.Label className="ml-2 text-gray-200 capitalize">
+          <Switch.Label
+            className={classes(
+              'ml-2 capitalize',
+              disabled ? 'text-gray-400 italic' : 'text-gray-200',
+            )}
+          >
             {label}
           </Switch.Label>
         )}
