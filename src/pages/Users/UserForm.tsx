@@ -291,7 +291,7 @@ export default function UserForm({
         </div>
       </div>
       <Button type="submit" color="green" loading={loading} fullWidth>
-        {user ? 'Update' : 'Create'} User
+        Save
       </Button>
     </form>
   );

@@ -62,7 +62,7 @@ export default memo(function UserRow({ user }: UserRowProps) {
   return (
     <>
       <SidePanel
-        title="Update User"
+        title="Edit User"
         open={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
       >
