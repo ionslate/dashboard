@@ -122,6 +122,7 @@ export default memo(function UserRow({ user }: UserRowProps) {
             <Dropdown
               icon={FiMoreVertical}
               placement="bottom-end"
+              variant="open"
               menuProps={{ className: 'w-48' }}
             >
               <DropdownItem
