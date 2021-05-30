@@ -62,6 +62,7 @@ export default function ResetPassword() {
             <div className="mb-4">
               <TextField
                 label="password"
+                required
                 id="password"
                 name="password"
                 type="password"
@@ -75,6 +76,7 @@ export default function ResetPassword() {
               <TextField
                 label="confirm password"
                 id="confirm password"
+                required
                 name="confirmPassword"
                 type="password"
                 value={confirmPassword}

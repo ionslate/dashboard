@@ -1,11 +1,12 @@
 import { Listbox, Transition } from '@headlessui/react';
 import { CSSProperties, Fragment } from 'react';
 import { IconContext } from 'react-icons';
-import { BiErrorCircle } from 'react-icons/bi';
+import { BiErrorCircle, BiInfoCircle } from 'react-icons/bi';
 import { HiCheck, HiSelector } from 'react-icons/hi';
 import { classes } from '../../utils';
 import Tippy from '@tippyjs/react/headless';
 import { useRef } from 'react';
+import Tooltip from '../Tooltip';
 
 export interface SelectOption<T> {
   label: string;
@@ -32,6 +33,7 @@ export interface SelectProps<T> {
   fullWidth?: boolean;
   placeholder?: string;
   straightSide?: 'left' | 'right';
+  tooltip?: string;
 }
 
 export default function Select<T>({
@@ -48,6 +50,7 @@ export default function Select<T>({
   fullWidth,
   placeholder,
   straightSide,
+  tooltip,
 }: SelectProps<T>) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -67,8 +70,20 @@ export default function Select<T>({
         {({ open, disabled }) => (
           <div className="relative">
             {label && (
-              <Listbox.Label className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
+              <Listbox.Label className="flex text-gray-400 text-xs font-bold uppercase tracking-widest mb-1">
                 {label}
+                {tooltip && (
+                  <Tooltip tip={tooltip} disabled={disabled}>
+                    <span
+                      tabIndex={disabled ? undefined : 0}
+                      className="ml-2 focus:outline-none focus:ring-1 ring-blue-400 rounded-full"
+                    >
+                      <IconContext.Provider value={{ size: '1rem' }}>
+                        <BiInfoCircle />
+                      </IconContext.Provider>
+                    </span>
+                  </Tooltip>
+                )}
               </Listbox.Label>
             )}
             <Tippy

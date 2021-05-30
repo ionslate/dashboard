@@ -1,4 +1,6 @@
 import { DebouncedFunc } from 'lodash';
+import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { FiX } from 'react-icons/fi';
 import Button from '../../components/Button';
@@ -43,6 +45,16 @@ interface UserSearchFieldsProps {
 export default function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
   const [searchFields, setSearchFields] = useState(initialSearchOptions);
 
+  const handleClearSearch = useCallback(() => {
+    setSearchFields(initialSearchOptions);
+    onSearch({});
+    onSearch.flush();
+  }, [onSearch]);
+
+  useEffect(() => {
+    return handleClearSearch;
+  }, [handleClearSearch]);
+
   function handleSearchFieldChange(
     updatedFields: typeof initialSearchOptions,
     { flush } = { flush: false },
@@ -68,12 +80,6 @@ export default function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
     if (flush) {
       onSearch.flush();
     }
-  }
-
-  function handleClearSearch() {
-    setSearchFields(initialSearchOptions);
-    onSearch({});
-    onSearch.flush();
   }
 
   return (

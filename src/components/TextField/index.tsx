@@ -7,7 +7,8 @@ import {
   Ref,
 } from 'react';
 import { IconContext } from 'react-icons';
-import { BiErrorCircle } from 'react-icons/bi';
+import { BiErrorCircle, BiInfoCircle } from 'react-icons/bi';
+import Tooltip from '../Tooltip';
 
 export interface TextFieldProps {
   label?: string;
@@ -27,6 +28,7 @@ export interface TextFieldProps {
   placeholder?: string;
   straightSide?: 'left' | 'right';
   required?: boolean;
+  tooltip?: string;
 }
 
 export default forwardRef(function TextField(
@@ -39,6 +41,8 @@ export default forwardRef(function TextField(
     straightSide,
     style,
     required,
+    tooltip,
+    disabled,
     ...props
   }: TextFieldProps,
   ref: Ref<HTMLInputElement>,
@@ -47,9 +51,21 @@ export default forwardRef(function TextField(
     <div className={classes(fullWidth && 'w-full', className)} style={style}>
       <label
         htmlFor={id}
-        className="block text-gray-400 text-xs font-bold uppercase tracking-widest mb-1"
+        className="flex text-gray-400 text-xs font-bold uppercase tracking-widest mb-1"
       >
         {label}
+        {tooltip && (
+          <Tooltip tip={tooltip} disabled={disabled}>
+            <span
+              tabIndex={disabled ? undefined : 0}
+              className="ml-2 focus:outline-none focus:ring-1 ring-blue-400 rounded-full"
+            >
+              <IconContext.Provider value={{ size: '1rem' }}>
+                <BiInfoCircle />
+              </IconContext.Provider>
+            </span>
+          </Tooltip>
+        )}
       </label>
       <div className={classes('shadow-sm', 'w-full')}>
         <input
@@ -57,6 +73,7 @@ export default forwardRef(function TextField(
           ref={ref}
           aria-required={required}
           aria-invalid={!!error}
+          disabled={disabled}
           className={classes(
             'shadow-inner appearance-none border-t-2 border-b-2 py-2 px-3 text-gray-100 bg-[#08101A] disabled:bg-gray-800 disabled:italic focus:outline-none focus:ring-2 focus:border-transparent disabled:cursor-not-allowed',
             !straightSide && 'rounded border-l-2 border-r-2',

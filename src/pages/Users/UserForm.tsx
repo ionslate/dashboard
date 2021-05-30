@@ -150,6 +150,7 @@ export default function UserForm({
         <div>
           <TextField
             label="username"
+            tooltip="Username can consist of uppercase letters, lowercase letters, and numbers, and must be between 4 and 32 characters in length"
             required
             id="create-edit-username"
             className="mb-2"
@@ -258,6 +259,7 @@ export default function UserForm({
             label="password"
             id="create-edit-password"
             className="mb-2"
+            tooltip="Password must be at least 8 characters long"
             type="password"
             disabled={!watch().requirePassword}
             required={watch().requirePassword}

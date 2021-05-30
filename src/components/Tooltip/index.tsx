@@ -45,7 +45,7 @@ export default function Tooltip<T>({
         <div
           role="alert"
           className={classes(
-            'z-10 bg-[#08101A] rounded p-2 text-gray-200 text-sm transition transform duration-100 shadow-md',
+            'z-10 bg-[#08101A] rounded p-2 text-gray-200 text-sm transition transform duration-100 shadow-md max-w-lg',
             isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75',
           )}
           {...attrs}

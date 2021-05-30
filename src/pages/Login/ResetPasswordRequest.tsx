@@ -45,6 +45,7 @@ export default function ResetPasswordRequest() {
             label="email"
             id="email"
             name="email"
+            required
             value={email}
             ref={emailTextFieldRef}
             fullWidth

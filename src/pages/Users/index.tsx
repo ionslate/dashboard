@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import { useRef } from 'react';
 import { VscSearchStop } from 'react-icons/vsc';
 import { Virtuoso } from 'react-virtuoso';
 import Loader from '../../components/Loader';
@@ -35,11 +36,13 @@ export function UsersPage() {
     },
   );
 
-  const users = data?.pages.flatMap((page) => page.userList.content) || [];
+  const handleSearch = useRef(
+    debounce((userSearch: UserSearch) => {
+      dispatch(searchUsers(userSearch));
+    }, 300),
+  );
 
-  const handleSearch = debounce((userSearch: UserSearch) => {
-    dispatch(searchUsers(userSearch));
-  }, 300);
+  const users = data?.pages.flatMap((page) => page.userList.content) || [];
 
   return (
     <div className="flex flex-col h-full">
@@ -49,7 +52,7 @@ export function UsersPage() {
       </div>
       <div className="rounded-md flex-1 flex flex-col">
         <div className="p-4 bg-gray-700 bg-opacity-40 rounded-t-md">
-          <UserSearchFields onSearch={handleSearch} />
+          <UserSearchFields onSearch={handleSearch.current} />
         </div>
         <div className="grid grid-cols-12 gap-1 px-4 pb-2 bottom-box-shadow bg-gray-700 bg-opacity-40">
           <span className="col-span-7 uppercase font-bold text-sm text-gray-300">
