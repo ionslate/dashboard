@@ -4,6 +4,7 @@ import { FiX } from 'react-icons/fi';
 import Button from '../../components/Button';
 import Select, { SelectOption } from '../../components/Select';
 import TextField from '../../components/TextField';
+import Tooltip from '../../components/Tooltip';
 import { UserRole, UserSearch } from '../../__generated__';
 
 type SearchDropdownOptions = 'ALL' | 'USERNAME' | 'EMAIL';
@@ -76,79 +77,85 @@ export default function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
   }
 
   return (
-    <div className="flex items-end">
-      <TextField
-        className="w-64"
-        label="search"
-        id="user-search"
-        placeholder="Search..."
-        value={searchFields.searchInput}
-        onChange={(e) =>
-          handleSearchFieldChange({
-            ...searchFields,
-            searchInput: e.target.value,
-          })
-        }
-        straightSide="right"
-      />
-      <Select
-        straightSide="left"
-        value={searchFields.selectedSearchOption}
-        onChange={({ option }) =>
-          handleSearchFieldChange(
-            {
+    <div className="flex justify-between items-end">
+      <div className="flex items-end">
+        <TextField
+          className="w-64"
+          label="search"
+          id="user-search"
+          placeholder="Search..."
+          value={searchFields.searchInput}
+          onChange={(e) =>
+            handleSearchFieldChange({
               ...searchFields,
-              selectedSearchOption: option,
-            },
-            { flush: true },
-          )
-        }
-        options={searchOptions}
-        className="w-36 mr-6"
-      />
-      <Select
-        label="filter by role"
-        value={searchFields.selectedRoleFilter}
-        onChange={({ option }) =>
-          handleSearchFieldChange(
-            {
-              ...searchFields,
-              selectedRoleFilter: option,
-            },
-            { flush: true },
-          )
-        }
-        options={filterByRoleOptions}
-        className="w-48 mr-6"
-      />
-      <Select
-        label="filter by status"
-        value={searchFields.selectedStatusFilter}
-        options={filterByStatus}
-        onChange={({ option }) =>
-          handleSearchFieldChange(
-            {
-              ...searchFields,
-              selectedStatusFilter: option,
-            },
-            { flush: true },
-          )
-        }
-        className="w-48 mr-6"
-      />
-      {(searchFields.searchInput ||
-        searchFields.selectedSearchOption.value !== 'ALL' ||
-        searchFields.selectedRoleFilter.value !== null ||
-        searchFields.selectedStatusFilter.value !== null) && (
-        <Button
-          icon={FiX}
-          color="red"
-          size="sm"
-          variant="outline"
-          className="mb-2"
-          onClick={handleClearSearch}
+              searchInput: e.target.value,
+            })
+          }
+          straightSide="right"
         />
-      )}
+        <Select
+          straightSide="left"
+          value={searchFields.selectedSearchOption}
+          onChange={({ option }) =>
+            handleSearchFieldChange(
+              {
+                ...searchFields,
+                selectedSearchOption: option,
+              },
+              { flush: true },
+            )
+          }
+          options={searchOptions}
+          className="w-36 mr-6"
+        />
+        <Select
+          label="filter by role"
+          value={searchFields.selectedRoleFilter}
+          onChange={({ option }) =>
+            handleSearchFieldChange(
+              {
+                ...searchFields,
+                selectedRoleFilter: option,
+              },
+              { flush: true },
+            )
+          }
+          options={filterByRoleOptions}
+          className="w-48 mr-6"
+        />
+        <Select
+          label="filter by status"
+          value={searchFields.selectedStatusFilter}
+          options={filterByStatus}
+          onChange={({ option }) =>
+            handleSearchFieldChange(
+              {
+                ...searchFields,
+                selectedStatusFilter: option,
+              },
+              { flush: true },
+            )
+          }
+          className="w-48 mr-6"
+        />
+      </div>
+      <div className="flex items-end">
+        {(searchFields.searchInput ||
+          searchFields.selectedSearchOption.value !== 'ALL' ||
+          searchFields.selectedRoleFilter.value !== null ||
+          searchFields.selectedStatusFilter.value !== null) && (
+          <Tooltip tip="Clear search">
+            <Button
+              icon={FiX}
+              color="red"
+              variant="outline"
+              size="sm"
+              className="mb-2"
+              onClick={handleClearSearch}
+            />
+          </Tooltip>
+        )}
+      </div>
     </div>
   );
 }
