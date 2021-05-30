@@ -9,30 +9,37 @@ import { UserRole, UserSearch } from '../../__generated__';
 type SearchDropdownOptions = 'ALL' | 'USERNAME' | 'EMAIL';
 
 const searchOptions: SelectOption<SearchDropdownOptions>[] = [
-  { label: 'All', disabled: false, value: 'ALL' },
-  { label: 'Username', disabled: false, value: 'USERNAME' },
-  { label: 'Email', disabled: false, value: 'EMAIL' },
+  { label: 'All', value: 'ALL' },
+  { label: 'Username', value: 'USERNAME' },
+  { label: 'Email', value: 'EMAIL' },
 ];
 
 const filterByRoleOptions: SelectOption<UserRole | null>[] = [
-  { label: '(None)', disabled: false, value: null },
-  { label: 'User', disabled: false, value: 'USER' },
-  { label: 'User Admin', disabled: false, value: 'USER_ADMIN' },
-  { label: 'Content Manager', disabled: false, value: 'CONTENT_MANAGER' },
-  { label: 'Content Publisher', disabled: false, value: 'CONTENT_PUBLISHER' },
+  { label: '(None)', value: null },
+  { label: 'User', value: 'USER' },
+  { label: 'User Admin', value: 'USER_ADMIN' },
+  { label: 'Content Manager', value: 'CONTENT_MANAGER' },
+  { label: 'Content Publisher', value: 'CONTENT_PUBLISHER' },
+];
+
+const filterByStatus: SelectOption<boolean | null>[] = [
+  { label: 'All', value: null },
+  { label: 'Enabled', value: true },
+  { label: 'Disabled', value: false },
 ];
 
 const initialSearchOptions = {
   searchInput: '',
   selectedSearchOption: searchOptions[0],
   selectedRoleFilter: filterByRoleOptions[0],
+  selectedStatusFilter: filterByStatus[0],
 };
 
 interface UserSearchFieldsProps {
   onSearch: DebouncedFunc<(userSearch: UserSearch) => void>;
 }
 
-export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
+export default function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
   const [searchFields, setSearchFields] = useState(initialSearchOptions);
 
   function handleSearchFieldChange(
@@ -54,6 +61,7 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
           ? updatedFields.searchInput
           : null,
       role: updatedFields.selectedRoleFilter.value,
+      active: updatedFields.selectedStatusFilter.value,
     });
 
     if (flush) {
@@ -96,7 +104,7 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
           )
         }
         options={searchOptions}
-        className="w-36 mr-5"
+        className="w-36 mr-6"
       />
       <Select
         label="filter by role"
@@ -111,11 +119,27 @@ export function UserSearchFields({ onSearch }: UserSearchFieldsProps) {
           )
         }
         options={filterByRoleOptions}
-        className="w-48 mr-5"
+        className="w-48 mr-6"
+      />
+      <Select
+        label="filter by status"
+        value={searchFields.selectedStatusFilter}
+        options={filterByStatus}
+        onChange={({ option }) =>
+          handleSearchFieldChange(
+            {
+              ...searchFields,
+              selectedStatusFilter: option,
+            },
+            { flush: true },
+          )
+        }
+        className="w-48 mr-6"
       />
       {(searchFields.searchInput ||
         searchFields.selectedSearchOption.value !== 'ALL' ||
-        searchFields.selectedRoleFilter.value !== null) && (
+        searchFields.selectedRoleFilter.value !== null ||
+        searchFields.selectedStatusFilter.value !== null) && (
         <Button
           icon={FiX}
           color="red"

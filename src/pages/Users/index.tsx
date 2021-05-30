@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../utils/reduxHooks';
 import { UserSearch } from '../../__generated__';
 import CreateUser from './CreateUser';
 import UserRow from './UserRow';
-import { UserSearchFields } from './UserSearch';
+import UserSearchFields from './UserSearchFields';
 import { searchUsers } from './userSearchSlice';
 import { useUserListInfiniteQuery } from './useUserListInfiniteQuery';
 

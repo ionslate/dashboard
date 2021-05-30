@@ -101,10 +101,6 @@ export type LoginRequest = {
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['Int']>;
-  resetPasswordRequest?: Maybe<Scalars['Boolean']>;
-  resetPassword: User;
-  login: User;
-  logout?: Maybe<Scalars['Boolean']>;
   createUser: User;
   adminCreateUser: User;
   changePassword?: Maybe<Scalars['Boolean']>;
@@ -114,12 +110,12 @@ export type Mutation = {
   disableUser?: Maybe<Scalars['ID']>;
   enableUser?: Maybe<Scalars['ID']>;
   forceLogoutUser?: Maybe<Scalars['ID']>;
+  resetPasswordRequest?: Maybe<Scalars['Boolean']>;
+  resetPassword: User;
+  login: User;
+  logout?: Maybe<Scalars['Boolean']>;
   createRule: Rule;
   updateRule: Rule;
-  createHackingDevice: HackingDevice;
-  updateHackingDevice: HackingDevice;
-  createHackingProgram: HackingProgram;
-  updateHackingProgram: HackingProgram;
   createAmmo: Ammo;
   updateAmmo: Ammo;
   createWeaponMode: WeaponMode;
@@ -127,22 +123,10 @@ export type Mutation = {
   removeWeaponMode?: Maybe<Scalars['ID']>;
   createWeapon: Weapon;
   updateWeapon: Weapon;
-};
-
-
-export type MutationResetPasswordRequestArgs = {
-  email: Scalars['String'];
-};
-
-
-export type MutationResetPasswordArgs = {
-  resetId: Scalars['String'];
-  password: Scalars['String'];
-};
-
-
-export type MutationLoginArgs = {
-  request: LoginRequest;
+  createHackingDevice: HackingDevice;
+  updateHackingDevice: HackingDevice;
+  createHackingProgram: HackingProgram;
+  updateHackingProgram: HackingProgram;
 };
 
 
@@ -188,6 +172,22 @@ export type MutationForceLogoutUserArgs = {
 };
 
 
+export type MutationResetPasswordRequestArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationResetPasswordArgs = {
+  resetId: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationLoginArgs = {
+  request: LoginRequest;
+};
+
+
 export type MutationCreateRuleArgs = {
   request: RuleRequest;
 };
@@ -196,28 +196,6 @@ export type MutationCreateRuleArgs = {
 export type MutationUpdateRuleArgs = {
   ruleId: Scalars['ID'];
   request: RuleRequest;
-};
-
-
-export type MutationCreateHackingDeviceArgs = {
-  request: HackingDeviceRequest;
-};
-
-
-export type MutationUpdateHackingDeviceArgs = {
-  hackingDeviceId: Scalars['ID'];
-  request: HackingDeviceRequest;
-};
-
-
-export type MutationCreateHackingProgramArgs = {
-  request: HackingProgramRequest;
-};
-
-
-export type MutationUpdateHackingProgramArgs = {
-  hackingProgramId: Scalars['ID'];
-  request: HackingProgramRequest;
 };
 
 
@@ -259,6 +237,28 @@ export type MutationCreateWeaponArgs = {
 export type MutationUpdateWeaponArgs = {
   weaponId: Scalars['ID'];
   request: WeaponRequest;
+};
+
+
+export type MutationCreateHackingDeviceArgs = {
+  request: HackingDeviceRequest;
+};
+
+
+export type MutationUpdateHackingDeviceArgs = {
+  hackingDeviceId: Scalars['ID'];
+  request: HackingDeviceRequest;
+};
+
+
+export type MutationCreateHackingProgramArgs = {
+  request: HackingProgramRequest;
+};
+
+
+export type MutationUpdateHackingProgramArgs = {
+  hackingProgramId: Scalars['ID'];
+  request: HackingProgramRequest;
 };
 
 export type PagedAmmo = {
@@ -323,14 +323,14 @@ export type Query = {
   userList: PagedUsers;
   ruleById: Rule;
   rulesList: PagedRules;
-  hackingDeviceById: HackingDevice;
-  hackingDevicesList: PagedHackingDevices;
-  hackingProgramById: HackingProgram;
-  hackingProgramsList: PagedHackingPrograms;
   ammoById: Ammo;
   ammoList: PagedAmmo;
   weaponById: Weapon;
   weaponsList: PagedWeapons;
+  hackingDeviceById: HackingDevice;
+  hackingDevicesList: PagedHackingDevices;
+  hackingProgramById: HackingProgram;
+  hackingProgramsList: PagedHackingPrograms;
 };
 
 
@@ -358,30 +358,6 @@ export type QueryRulesListArgs = {
 };
 
 
-export type QueryHackingDeviceByIdArgs = {
-  hackingDeviceId: Scalars['ID'];
-};
-
-
-export type QueryHackingDevicesListArgs = {
-  search?: Maybe<Search>;
-  page?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryHackingProgramByIdArgs = {
-  hackingProgramId: Scalars['ID'];
-};
-
-
-export type QueryHackingProgramsListArgs = {
-  search?: Maybe<Search>;
-  page?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryAmmoByIdArgs = {
   ammoId: Scalars['ID'];
 };
@@ -400,6 +376,30 @@ export type QueryWeaponByIdArgs = {
 
 
 export type QueryWeaponsListArgs = {
+  search?: Maybe<Search>;
+  page?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryHackingDeviceByIdArgs = {
+  hackingDeviceId: Scalars['ID'];
+};
+
+
+export type QueryHackingDevicesListArgs = {
+  search?: Maybe<Search>;
+  page?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryHackingProgramByIdArgs = {
+  hackingProgramId: Scalars['ID'];
+};
+
+
+export type QueryHackingProgramsListArgs = {
   search?: Maybe<Search>;
   page?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
@@ -468,6 +468,7 @@ export type UserSearch = {
   username?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   role?: Maybe<UserRole>;
+  active?: Maybe<Scalars['Boolean']>;
 };
 
 export type ValidationError = {
