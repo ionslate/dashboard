@@ -274,11 +274,13 @@ export default function UserForm({
             error={errors.confirmPassword?.message}
             {...register('confirmPassword')}
           />
-          {!!user && watch().requirePassword && (
-            <Message type="warn" className="mt-4">
-              Setting the password will log the user out.
-            </Message>
-          )}
+          <Message
+            type="warn"
+            className="mt-4"
+            active={!!user && watch().requirePassword}
+          >
+            Setting the password will log the user out.
+          </Message>
           {!!user && (
             <Toggle
               disabled={watch().requirePassword}

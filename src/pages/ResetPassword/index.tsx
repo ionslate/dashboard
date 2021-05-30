@@ -83,11 +83,9 @@ export default function ResetPassword() {
               />
             </div>
             <div>
-              {isError && (
-                <Message type="error" className="mb-4">
-                  Unable to reset password. Link is either invalid or expired.
-                </Message>
-              )}
+              <Message type="error" className="mb-4" active={isError}>
+                Unable to reset password. Link is either invalid or expired.
+              </Message>
               <Button type="submit" color="green" fullWidth loading={isLoading}>
                 Submit
               </Button>

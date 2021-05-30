@@ -43,8 +43,9 @@ export default function Tooltip<T>({
       placement={placement}
       render={(attrs) => (
         <div
+          role="alert"
           className={classes(
-            'z-10 bg-[#08101A] rounded py-1 px-2 text-gray-200 text-sm transition transform duration-100',
+            'z-10 bg-[#08101A] rounded p-2 text-gray-200 text-sm transition transform duration-100 shadow-md',
             isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75',
           )}
           {...attrs}

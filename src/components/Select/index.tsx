@@ -181,7 +181,7 @@ export default function Select<T>({
                     </span>
                   </Listbox.Button>
                   {error && typeof error === 'string' && (
-                    <div className="flex items-center mt-1">
+                    <div className="flex items-center mt-1" role="alert">
                       <IconContext.Provider
                         value={{ className: 'mr-2 text-red-500' }}
                       >

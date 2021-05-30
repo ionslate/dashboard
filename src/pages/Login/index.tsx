@@ -83,13 +83,11 @@ export default function Login() {
               <Button type="submit" color="green" fullWidth loading={isLoading}>
                 Login
               </Button>
-              {isError && (
-                <Message type="error" className="mt-4">
-                  {error?.code === 401
-                    ? 'Invalid username or password'
-                    : 'Unknown error, please try again'}
-                </Message>
-              )}
+              <Message type="error" className="mt-4" active={isError}>
+                {error?.code === 401
+                  ? 'Invalid username or password'
+                  : 'Unknown error, please try again'}
+              </Message>
             </div>
           </form>
           <ResetPasswordRequest />
