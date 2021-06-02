@@ -1,32 +1,48 @@
+export interface ValidationError {
+  field?: string;
+  message?: string;
+}
+
 export class DataError extends Error {
-  constructor(public message: string, public code?: number) {
+  constructor(
+    public message: string,
+    public validationError?: ValidationError,
+    public code?: number,
+  ) {
     super(message);
   }
 }
 
-export function fetcher<TData, TVariables>(
+export async function gqlRequest<TData, TVariables>(
   query: string,
   variables?: TVariables,
-) {
-  return async (): Promise<TData> => {
-    const res = await fetch(process.env.REACT_APP_API_URL + '/graphql', {
-      method: 'POST',
-      body: JSON.stringify({ query, variables }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
+): Promise<TData> {
+  const res = await fetch(process.env.REACT_APP_API_URL + '/graphql', {
+    method: 'POST',
+    body: JSON.stringify({ query, variables }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
 
-    const json = await res.json();
+  const json = await res.json();
 
-    if (json.errors) {
-      const { message, extensions } = json.errors[0];
+  if (json.errors) {
+    const { message, extensions } = json.errors[0];
 
-      const error = new DataError(message, extensions.code);
-      throw error;
-    }
+    const error = new DataError(
+      message,
+      extensions.validationError,
+      extensions.code,
+    );
+    throw error;
+  }
 
-    return json.data;
-  };
+  return json.data;
 }
+
+export const fetcher = <TData, TVariables>(
+  query: string,
+  variables?: TVariables,
+) => () => gqlRequest<TData, TVariables>(query, variables);

@@ -17,10 +17,10 @@ import NavItem from '../../NavItem';
 import NavGroupLabel from '../../NavItem/NavGroupLabel';
 import NavItemAction from '../../NavItem/NavItemAction';
 import { useAuth } from '../AuthProvider';
-import LogoutButton from '../LogoutButton';
+import UserMenu from './UserMenu';
 
 export default function Layout({ children }: PropsWithChildren<{}>) {
-  const { hasRole } = useAuth();
+  const { hasRole, user } = useAuth();
 
   return (
     <div className="h-full flex">
@@ -92,7 +92,8 @@ export default function Layout({ children }: PropsWithChildren<{}>) {
       </div>
       <div className="h-full flex flex-col flex-1">
         <div className="h-16 w-full bg-gray-700 bg-opacity-75 flex flex-row-reverse py-2 px-4 items-center">
-          <LogoutButton />
+          {/* <LogoutButton /> */}
+          <UserMenu user={user} />
         </div>
         <div className="max-w-7xl flex-1 p-4 shadow-inner">{children}</div>
       </div>

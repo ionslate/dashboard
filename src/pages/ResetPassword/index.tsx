@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -11,6 +10,27 @@ import {
   UserQuery,
   useUserQuery,
 } from '../../__generated__';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from '../../components/Toaster/ToastService';
+
+const resetPasswordSchema = yup.object({
+  password: yup
+    .string()
+
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters long'),
+  confirmPassword: yup
+    .string()
+    .required('Confirm password is required')
+    .oneOf([yup.ref('password')], 'Passwords do not match'),
+});
+
+const defaultValues = {
+  password: '',
+  confirmPassword: '',
+};
 
 export default function ResetPassword() {
   const location = useLocation();
@@ -24,6 +44,7 @@ export default function ResetPassword() {
   const {
     mutate: resetPassword,
     isError,
+    error,
     isLoading,
   } = useResetPasswordMutation({
     onSuccess: (res) => {
@@ -31,11 +52,15 @@ export default function ResetPassword() {
         user: res.resetPassword,
       });
       history.push('/');
+      toast.success('Password Changed');
     },
   });
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues, resolver: yupResolver(resetPasswordSchema) });
 
   if (!resetId) {
     return <Redirect to="/login" />;
@@ -54,40 +79,39 @@ export default function ResetPassword() {
             <h2 className="text-gray-100 text-xl">Reset Password</h2>
           </div>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
+            onSubmit={handleSubmit(({ password }) => {
               resetPassword({ resetId, password });
-            }}
+            })}
           >
             <div className="mb-4">
               <TextField
                 label="password"
+                required
                 id="password"
-                name="password"
                 type="password"
-                value={password}
                 autoFocus
-                onChange={(e) => setPassword(e.target.value)}
                 fullWidth
+                error={errors.password?.message}
+                {...register('password')}
               />
             </div>
             <div className={isError ? 'mb-4' : 'mb-8'}>
               <TextField
                 label="confirm password"
                 id="confirm password"
-                name="confirmPassword"
+                required
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
                 fullWidth
+                error={errors.confirmPassword?.message}
+                {...register('confirmPassword')}
               />
             </div>
             <div>
-              {isError && (
-                <Message type="error" className="mb-4">
-                  Unable to reset password. Link is either invalid or expired.
-                </Message>
-              )}
+              <Message type="error" className="mb-4" active={isError}>
+                {error?.code === 401
+                  ? 'Unable to reset password. Link is either invalid or expired.'
+                  : 'Unknown error, please try again'}
+              </Message>
               <Button type="submit" color="green" fullWidth loading={isLoading}>
                 Submit
               </Button>

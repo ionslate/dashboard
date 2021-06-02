@@ -1,0 +1,47 @@
+query userList($search: UserSearch, $page: Int, $limit: Int) {
+  userList(search: $search, page: $page, limit: $limit) {
+    content {
+      ...UserInfo
+      active
+    }
+    page
+    last
+    count
+  }
+}
+
+mutation adminCreateUser($request: UserAdminRequest!) {
+  adminCreateUser(request: $request) {
+    id
+  }
+}
+
+mutation updateUser(
+  $userId: ID!
+  $request: UserAdminRequest!
+  $logUserOut: Boolean
+) {
+  updateUser(userId: $userId, request: $request, logUserOut: $logUserOut) {
+    id
+  }
+}
+
+mutation removeUser($userId: ID!) {
+  removeUser(userId: $userId)
+}
+
+mutation enableUser($userId: ID!) {
+  enableUser(userId: $userId)
+}
+
+mutation disableUser($userId: ID!) {
+  disableUser(userId: $userId)
+}
+
+mutation forceLogoutUser($userId: ID!) {
+  forceLogoutUser(userId: $userId)
+}
+
+mutation changePassword($request: ChangePasswordRequest!) {
+  changePassword(request: $request)
+}

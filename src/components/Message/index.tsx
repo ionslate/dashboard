@@ -8,12 +8,6 @@ import {
   BiInfoCircle,
 } from 'react-icons/bi';
 
-export interface MessageProps {
-  type?: 'info' | 'success' | 'warn' | 'error';
-  className?: string;
-  style?: CSSProperties;
-}
-
 const colorMap = {
   info: 'bg-blue-500 text-blue-100',
   success: 'bg-green-700 text-green-200',
@@ -28,16 +22,29 @@ const iconMap = {
   error: BiErrorCircle,
 } as const;
 
+export interface MessageProps {
+  type?: 'info' | 'success' | 'warn' | 'error';
+  className?: string;
+  style?: CSSProperties;
+  active?: boolean;
+}
+
 export default function Message({
   type = 'info',
   style,
   className,
+  active = true,
   children,
 }: PropsWithChildren<MessageProps>) {
   const IconComponent = iconMap[type];
 
+  if (!active) {
+    return null;
+  }
+
   return (
     <div
+      role="alert"
       style={style}
       className={classes(
         'p-4 rounded shadow bg-opacity-60 w-full flex items-center italic',

@@ -14,6 +14,9 @@ module.exports = {
     },
   },
   plugins: [
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    }),
     ({ addUtilities, e, theme, variants }) => {
       let colors = flattenColorPalette(theme('borderColor'));
       delete colors['default'];

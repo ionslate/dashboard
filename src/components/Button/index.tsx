@@ -20,7 +20,7 @@ const variantColorMap = {
     pink:
       'bg-transparent border-2 border-pink-400 hover:bg-pink-400 hover:bg-opacity-40 text-pink-400 font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:italic disabled:hover:bg-transparent disabled:text-pink-400 disabled:opacity-40',
     gray:
-      'bg-transparent border-2 border-gray-400 hover:bg-gray-400 hover:bg-opacity-40 text-gray-400 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-40',
+      'bg-transparent border-2 border-gray-300 hover:bg-gray-300 hover:bg-opacity-40 text-gray-300 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-40',
     red:
       'bg-transparent border-2 border-red-400 hover:bg-red-400 hover:bg-opacity-40 text-red-400 font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:italic disabled:hover:bg-transparent disabled:text-red-400 disabled:opacity-40',
   },
@@ -30,7 +30,7 @@ const variantColorMap = {
     pink:
       'bg-transparent hover:bg-pink-400 hover:bg-opacity-20 text-pink-400 font-bold focus:ring-purple-500 focus:ring-offset-purple-300 disabled:italic disabled:hover:bg-transparent disabled:text-pink-400 disabled:opacity-60',
     gray:
-      'bg-transparent hover:bg-gray-400 hover:bg-opacity-20 text-gray-400 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-60',
+      'bg-transparent hover:bg-gray-400 hover:bg-opacity-20 text-gray-300 font-bold focus:ring-blue-500 focus:ring-offset-blue-300 disabled:italic disabled:hover:bg-transparent disabled:text-gray-400 disabled:opacity-60',
     red:
       'bg-transparent hover:bg-red-400 hover:bg-opacity-20 text-red-400 font-bold focus:ring-yellow-500 focus:ring-offset-yellow-300 disabled:italic disabled:hover:bg-transparent disabled:text-red-400 disabled:opacity-60',
   },
@@ -111,6 +111,7 @@ export default forwardRef(function Button(
     loading,
     children,
     disabled,
+    type,
     ...props
   }: ButtonProps,
   ref: Ref<HTMLElement>,
@@ -120,6 +121,7 @@ export default forwardRef(function Button(
 
   return (
     <button
+      type={type || 'button'}
       ref={mergeRefs(ref, inputRef)}
       className={classes(
         variantColorMap[variant]?.[color],
@@ -134,7 +136,7 @@ export default forwardRef(function Button(
         'font-bold',
         iconPosition === 'right' && 'flex-row-reverse',
         IconComponent && !children && !fullWidth ? 'rounded-full' : 'rounded',
-        (IconComponent && !children) || 'px-2',
+        (IconComponent && !children) || 'px-4',
         className,
       )}
       disabled={loading || disabled}
