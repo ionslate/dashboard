@@ -9,13 +9,13 @@ import {
 } from 'react-icons/bi';
 import { FiMoreVertical } from 'react-icons/fi';
 import { useQueryClient } from 'react-query';
+import { useUserSearch } from '.';
 import Badge from '../../components/Badge';
 import Dropdown, { DropdownItem } from '../../components/Dropdown';
 import SidePanel from '../../components/SidePanel';
 import { toast } from '../../components/Toaster/ToastService';
 import { classes } from '../../utils';
 import { queryErrorHandler } from '../../utils/queryErrorHandler';
-import { useAppSelector } from '../../utils/reduxHooks';
 import {
   useEnableUserMutation,
   User,
@@ -37,7 +37,7 @@ export default memo(function UserRow({ user }: UserRowProps) {
   const [isDisableModalOpen, setIsDisableModalOpen] = useState(false);
   const [isRemoveUserModalOpen, setIsRemoveUserModalOpen] = useState(false);
 
-  const userSearch = useAppSelector((state) => state.userSearch);
+  const userSearch = useUserSearch();
 
   const queryClient = useQueryClient();
   const {

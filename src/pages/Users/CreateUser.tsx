@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { useUserSearch } from '.';
 import Button from '../../components/Button';
 import SidePanel from '../../components/SidePanel';
 import { toast } from '../../components/Toaster/ToastService';
 import { queryErrorHandler } from '../../utils/queryErrorHandler';
-import { useAppSelector } from '../../utils/reduxHooks';
 import { useAdminCreateUserMutation } from '../../__generated__';
 import UserForm from './UserForm';
 import { useUserListInfiniteQuery } from './useUserListInfiniteQuery';
@@ -12,7 +12,7 @@ import { useUserListInfiniteQuery } from './useUserListInfiniteQuery';
 export default function CreateUser() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
-  const userSearch = useAppSelector((state) => state.userSearch);
+  const userSearch = useUserSearch();
 
   const queryClient = useQueryClient();
   const { mutate, error, reset, isLoading } = useAdminCreateUserMutation({

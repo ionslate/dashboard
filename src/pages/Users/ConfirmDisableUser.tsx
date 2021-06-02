@@ -1,8 +1,8 @@
 import { useQueryClient } from 'react-query';
+import { useUserSearch } from '.';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
 import { toast } from '../../components/Toaster/ToastService';
 import { queryErrorHandler } from '../../utils/queryErrorHandler';
-import { useAppSelector } from '../../utils/reduxHooks';
 import { useDisableUserMutation } from '../../__generated__';
 import { useUserListInfiniteQuery } from './useUserListInfiniteQuery';
 
@@ -19,7 +19,7 @@ export function ConfirmDisableUser({
   username,
   userId,
 }: ConfirmDisableUserProps) {
-  const userSearch = useAppSelector((state) => state.userSearch);
+  const userSearch = useUserSearch();
 
   const queryClient = useQueryClient();
   const { mutate: disableUser } = useDisableUserMutation({

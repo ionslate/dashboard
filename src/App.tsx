@@ -8,7 +8,7 @@ import Toaster from './components/Toaster';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
-import { UsersPage } from './pages/Users';
+import UsersPage from './pages/Users';
 
 function App() {
   return (
