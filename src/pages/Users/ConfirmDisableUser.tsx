@@ -1,5 +1,7 @@
 import { useQueryClient } from 'react-query';
 import ConfirmModal from '../../components/Modal/ConfirmModal';
+import { toast } from '../../components/Toaster/ToastService';
+import { queryErrorHandler } from '../../utils/queryErrorHandler';
 import { useAppSelector } from '../../utils/reduxHooks';
 import { useDisableUserMutation } from '../../__generated__';
 import { useUserListInfiniteQuery } from './useUserListInfiniteQuery';
@@ -25,7 +27,9 @@ export function ConfirmDisableUser({
       queryClient.refetchQueries(
         useUserListInfiniteQuery.getKey({ search: userSearch }),
       );
+      toast.success('User Disabled');
     },
+    onError: queryErrorHandler,
   });
   return (
     <ConfirmModal

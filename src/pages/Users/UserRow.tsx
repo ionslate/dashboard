@@ -12,7 +12,9 @@ import { useQueryClient } from 'react-query';
 import Badge from '../../components/Badge';
 import Dropdown, { DropdownItem } from '../../components/Dropdown';
 import SidePanel from '../../components/SidePanel';
+import { toast } from '../../components/Toaster/ToastService';
 import { classes } from '../../utils';
+import { queryErrorHandler } from '../../utils/queryErrorHandler';
 import { useAppSelector } from '../../utils/reduxHooks';
 import {
   useEnableUserMutation,
@@ -49,14 +51,18 @@ export default memo(function UserRow({ user }: UserRowProps) {
         useUserListInfiniteQuery.getKey({ search: userSearch }),
       );
       setIsEditModalOpen(false);
+      toast.success('User Updated');
     },
+    onError: queryErrorHandler,
   });
   const { mutate: enableUser } = useEnableUserMutation({
     onSuccess: () => {
       queryClient.refetchQueries(
         useUserListInfiniteQuery.getKey({ search: userSearch }),
       );
+      toast.success('User Enabled');
     },
+    onError: queryErrorHandler,
   });
 
   return (

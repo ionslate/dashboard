@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import Modal from '../../components/Modal';
+import { toast } from '../../components/Toaster/ToastService';
 import { linkMixin } from '../../mixins';
 import { classes } from '../../utils';
+import { queryErrorHandler } from '../../utils/queryErrorHandler';
 import { useResetPasswordRequestMutation } from '../../__generated__';
 import ResetPasswordRequestForm from './ResetPasswordRequestForm';
 
@@ -18,7 +20,9 @@ export default function ResetPasswordRequestModal() {
   } = useResetPasswordRequestMutation({
     onSuccess: () => {
       handleClose();
+      toast.success('Email Sent');
     },
+    onError: queryErrorHandler,
   });
 
   return (

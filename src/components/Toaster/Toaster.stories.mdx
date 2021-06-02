@@ -1,0 +1,67 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  ArgsTable,
+  Preview,
+} from '@storybook/addon-docs/blocks';
+import Toaster from '.';
+import { toast } from './ToastService';
+import Button from '../Button';
+
+<Meta title="Components/Toaster" component={Toaster} />
+
+# Toaster
+
+<Preview>
+  <Story name="Toaster (Default)">
+    <div style={{ display: 'flex' }}>
+      <Toaster />
+      <Button
+        style={{ marginRight: 8 }}
+        onClick={() => toast.info('This is an info toast')}
+      >
+        Info Toast
+      </Button>
+      <Button
+        style={{ marginRight: 8 }}
+        color="green"
+        onClick={() => toast.success('This is a success toast')}
+      >
+        Success Toast
+      </Button>
+      <Button
+        style={{ marginRight: 8 }}
+        color="pink"
+        onClick={() => toast.warn('This is a warn toast')}
+      >
+        Warn Toast
+      </Button>
+      <Button color="red" onClick={() => toast.error('This is an error toast')}>
+        Error Toast
+      </Button>
+    </div>
+  </Story>
+</Preview>
+
+<ArgsTable story="Toaster (Default)" of={Message} />
+
+## Really long toast message
+
+<Canvas>
+  <Story name="Really long toast message">
+    <div style={{ display: 'flex' }}>
+      <Toaster />
+      <Button
+        style={{ marginRight: 8 }}
+        onClick={() =>
+          toast.info(
+            'This is a really really long toast message that should still fit on the toast...',
+          )
+        }
+      >
+        Info Toast
+      </Button>
+    </div>
+  </Story>
+</Canvas>

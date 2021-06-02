@@ -4,6 +4,7 @@ import AuthProvider from './components/AuthProvider';
 import Layout from './components/Layout';
 import MessageCard from './components/Message/MessageCard';
 import ProtectedRoute from './components/ProtectedRoute';
+import Toaster from './components/Toaster';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
@@ -86,6 +87,7 @@ function App() {
             </ProtectedRoute>
           </Switch>
         </Router>
+        <Toaster />
       </AuthProvider>
     </div>
   );

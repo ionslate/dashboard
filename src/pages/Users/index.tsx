@@ -4,6 +4,7 @@ import { VscSearchStop } from 'react-icons/vsc';
 import { Virtuoso } from 'react-virtuoso';
 import Loader from '../../components/Loader';
 import MessageCard from '../../components/Message/MessageCard';
+import { queryErrorHandler } from '../../utils/queryErrorHandler';
 import { useAppDispatch, useAppSelector } from '../../utils/reduxHooks';
 import { UserSearch } from '../../__generated__';
 import CreateUser from './CreateUser';
@@ -33,6 +34,7 @@ export function UsersPage() {
     {
       getNextPageParam: ({ userList }) =>
         userList.last ? undefined : userList.page + 1,
+      onError: queryErrorHandler,
     },
   );
 

@@ -13,6 +13,7 @@ import {
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from '../../components/Toaster/ToastService';
 
 const resetPasswordSchema = yup.object({
   password: yup
@@ -51,6 +52,7 @@ export default function ResetPassword() {
         user: res.resetPassword,
       });
       history.push('/');
+      toast.success('Password Changed');
     },
   });
 

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import Button from '../../components/Button';
 import SidePanel from '../../components/SidePanel';
+import { toast } from '../../components/Toaster/ToastService';
+import { queryErrorHandler } from '../../utils/queryErrorHandler';
 import { useAppSelector } from '../../utils/reduxHooks';
 import { useAdminCreateUserMutation } from '../../__generated__';
 import UserForm from './UserForm';
@@ -19,7 +21,9 @@ export default function CreateUser() {
         useUserListInfiniteQuery.getKey({ search: userSearch }),
       );
       setIsUserModalOpen(false);
+      toast.success('User Created');
     },
+    onError: queryErrorHandler,
   });
 
   function handleClose() {
