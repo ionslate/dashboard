@@ -4,6 +4,7 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { FiChevronDown, FiPower } from 'react-icons/fi';
 import { RiUserSettingsLine } from 'react-icons/ri';
 import { useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
 import {
   useLogoutMutation,
   User,
@@ -16,6 +17,7 @@ import ChangePasswordModal from './ChangePasswordModal';
 
 export default function UserMenu({ user }: { user?: User | null }) {
   const queryClient = useQueryClient();
+  const history = useHistory();
 
   const { mutate: logout, isLoading: isLogoutLoading } = useLogoutMutation({
     onSuccess: () => {
@@ -23,6 +25,9 @@ export default function UserMenu({ user }: { user?: User | null }) {
         user: null,
       });
       queryClient.clear();
+      setTimeout(() => {
+        history.push('/login');
+      }, 0);
     },
   });
 

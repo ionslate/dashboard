@@ -1,4 +1,3 @@
-import { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../../components/AuthProvider';
@@ -6,10 +5,31 @@ import Button from '../../components/Button';
 import Message from '../../components/Message';
 import TextField from '../../components/TextField';
 import { useLoginMutation, UserQuery, useUserQuery } from '../../__generated__';
-import ResetPasswordRequest from './ResetPasswordRequest';
+import ResetPasswordRequestModal from './ResetPasswordRequestModal';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const loginSchema = yup.object({
+  username: yup.string().required(),
+  password: yup.string().required(),
+});
+
+const defaultValues = {
+  username: '',
+  password: '',
+};
 
 export default function Login() {
-  const usernameInputRef = useRef<HTMLInputElement>(null);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setFocus,
+  } = useForm({
+    defaultValues,
+    resolver: yupResolver(loginSchema),
+  });
 
   const history = useHistory();
   const location = useLocation();
@@ -29,11 +49,9 @@ export default function Login() {
       }, 0);
     },
     onError: () => {
-      usernameInputRef.current?.focus();
+      setFocus('username');
     },
   });
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
   const { user } = useAuth();
 
@@ -52,31 +70,27 @@ export default function Login() {
             <span className="text-indigo-400 text-xl">Dashboard</span>
           </div>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
+            onSubmit={handleSubmit(({ username, password }) => {
               login({ request: { username, password } });
-            }}
+            })}
           >
             <div className="mb-4">
               <TextField
                 label="username"
                 id="username"
-                name="username"
-                value={username}
-                autoFocus
-                onChange={(e) => setUsername(e.target.value)}
                 fullWidth
+                error={errors.username?.message}
+                {...register('username')}
               />
             </div>
             <div className={isError ? 'mb-4' : 'mb-8'}>
               <TextField
                 label="password"
                 id="password"
-                name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 fullWidth
+                error={errors.password?.message}
+                {...register('password')}
               />
             </div>
             <div>
@@ -90,7 +104,7 @@ export default function Login() {
               </Message>
             </div>
           </form>
-          <ResetPasswordRequest />
+          <ResetPasswordRequestModal />
         </div>
       </div>
     </div>
