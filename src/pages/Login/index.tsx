@@ -9,6 +9,7 @@ import ResetPasswordRequestModal from './ResetPasswordRequestModal';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import prettyMs from 'pretty-ms';
 
 const loginSchema = yup.object({
   username: yup.string().required(),
@@ -100,6 +101,11 @@ export default function Login() {
               <Message type="error" className="mt-4" active={isError}>
                 {error?.code === 401
                   ? 'Invalid username or password'
+                  : error?.code === 429
+                  ? `Too many requests. Please wait ${prettyMs(
+                      (error.retryAfter || 0) * 1000,
+                      { compact: true },
+                    )} and try again`
                   : 'Unknown error, please try again'}
               </Message>
             </div>

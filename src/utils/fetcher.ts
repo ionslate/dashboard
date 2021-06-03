@@ -7,6 +7,7 @@ export class DataError extends Error {
   constructor(
     public message: string,
     public validationError?: ValidationError,
+    public retryAfter?: number,
     public code?: number,
   ) {
     super(message);
@@ -34,6 +35,7 @@ export async function gqlRequest<TData, TVariables>(
     const error = new DataError(
       message,
       extensions.validationError,
+      extensions.retryAfter,
       extensions.code,
     );
     throw error;
