@@ -1,0 +1,21 @@
+query auditList($page: Int, $limit: Int) {
+  auditList(page: $page, limit: $limit) {
+    content {
+      id
+      performedBy
+      performedAt
+      action
+      resource
+      resourceName
+      parentResourceName
+      auditFields {
+        fieldName
+        oldValue
+        newValue
+      }
+    }
+    count
+    page
+    last
+  }
+}
