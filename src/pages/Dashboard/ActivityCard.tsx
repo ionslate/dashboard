@@ -2,12 +2,13 @@ import { Audit } from '../../__generated__';
 import { Disclosure } from '@headlessui/react';
 import { MdArrowDropDown } from 'react-icons/md';
 import { classes } from '../../utils';
+import { memo } from 'react';
 
 interface ActivityCardProps {
   activity: Audit;
 }
 
-export default function ActivityCard({ activity }: ActivityCardProps) {
+export default memo(function ActivityCard({ activity }: ActivityCardProps) {
   return (
     <div className="p-2 pb-1">
       <div className="p-2 rounded-sm bg-gray-700">
@@ -78,4 +79,4 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
       </div>
     </div>
   );
-}
+});
