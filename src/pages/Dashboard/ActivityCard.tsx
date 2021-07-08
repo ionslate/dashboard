@@ -28,7 +28,7 @@ export default memo(function ActivityCard({ activity }: ActivityCardProps) {
           </span>
           {activity.parentResourceName ? (
             <>
-              <span className="text-gray-300"> on </span>
+              <span className="text-gray-300"> for </span>
               <span className="font-bold text-gray-200">
                 {activity.parentResourceName}
               </span>
