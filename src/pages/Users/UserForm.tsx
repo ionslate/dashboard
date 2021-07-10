@@ -70,7 +70,7 @@ const userSchema = yup.object({
       CONTENT_PUBLISHER: yup.boolean(),
     })
     .test('is-atleast-one', 'At least one role must be selected', (value) =>
-      Object.values(value).every((role) => !!role),
+      Object.values(value).some((role) => !!role),
     ),
 });
 

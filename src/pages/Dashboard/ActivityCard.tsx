@@ -3,6 +3,7 @@ import { Disclosure } from '@headlessui/react';
 import { MdArrowDropDown } from 'react-icons/md';
 import { classes } from '../../utils';
 import { memo } from 'react';
+import ActivityFields from './ActivityFields';
 
 interface ActivityCardProps {
   activity: Audit;
@@ -52,24 +53,10 @@ export default memo(function ActivityCard({ activity }: ActivityCardProps) {
                     <span>View Details</span>
                   </Disclosure.Button>
                   <Disclosure.Panel>
-                    <ul className="list-disc list-outside ml-3 p-1">
-                      {activity.auditFields?.map((field) => (
-                        <li className="m-2">
-                          <span className="text-gray-300">updated </span>
-                          <span className="font-bold text-gray-200">
-                            {field.fieldName}
-                          </span>
-                          <span className="text-gray-300"> to </span>
-                          <span className="font-bold text-gray-200">
-                            {field.newValue || '(Nothing)'}
-                          </span>
-                          <span className="text-gray-300"> from </span>
-                          <span className="font-bold text-gray-200">
-                            {field.oldValue || '(Nothing)'}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                    <ActivityFields
+                      fields={activity.auditFields}
+                      action={activity.action}
+                    />
                   </Disclosure.Panel>
                 </>
               )}
