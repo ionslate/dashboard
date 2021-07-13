@@ -63,30 +63,44 @@ const userSchema = yup.object({
           : schema.notRequired(),
     ),
   roles: yup
-    .array(
-      yup
-        .mixed()
-        .oneOf(
-          ['USER', 'USER_ADMIN', 'CONTENT_MANAGER', 'CONTENT_PUBLISHER', false],
-          ({ originalValue }) => `${originalValue} is not a valid value`,
-        ),
-    )
-    .transform((value) => value.filter((v: (string | false)[]) => !!v))
-    .test(
-      'is-a tleast-one',
-      'At least one role must be selected',
-      (value) => !!value?.some((v) => !!v),
+    .object({
+      USER: yup.boolean(),
+      USER_ADMIN: yup.boolean(),
+      CONTENT_MANAGER: yup.boolean(),
+      CONTENT_PUBLISHER: yup.boolean(),
+    })
+    .test('is-atleast-one', 'At least one role must be selected', (value) =>
+      Object.values(value).some((role) => !!role),
     ),
 });
 
-const defaultValues = {
-  username: '',
-  email: '',
-  requirePassword: false,
-  password: '',
-  confirmPassword: '',
-  roles: [] as UserRole[],
-};
+function getDefaultValues(user?: User) {
+  const defaultValues = {
+    username: '',
+    email: '',
+    requirePassword: false,
+    password: '',
+    confirmPassword: '',
+    roles: {
+      USER: false,
+      USER_ADMIN: false,
+      CONTENT_MANAGER: false,
+      CONTENT_PUBLISHER: false,
+    },
+  };
+
+  if (!user) {
+    return defaultValues;
+  }
+
+  const roles = Object.fromEntries(user.roles.map((role) => [role, true]));
+
+  return {
+    ...defaultValues,
+    ...user,
+    roles: { ...defaultValues.roles, ...roles },
+  };
+}
 
 export interface UserFormProps {
   user?: User;
@@ -111,7 +125,7 @@ export default function UserForm({
     control,
     watch,
   } = useForm({
-    defaultValues: { ...defaultValues, ...user },
+    defaultValues: getDefaultValues(user),
     resolver: yupResolver(userSchema),
   });
   const [logUserOut, setLogUserOut] = useState(false);
@@ -139,7 +153,9 @@ export default function UserForm({
           {
             username: values.username,
             email: values.email,
-            roles: values.roles,
+            roles: Object.entries(values.roles)
+              .filter(([role, value]) => !!value)
+              .map(([role]) => role) as UserRole[],
             password: values.password,
           },
           logUserOut,
@@ -202,29 +218,25 @@ export default function UserForm({
             <Checkbox
               id="user-role"
               label="User"
-              value="USER"
               className="mb-1"
-              {...register('roles.0')}
+              {...register('roles.USER')}
             />
             <Checkbox
               id="user-admin-role"
               label="User Admin"
-              value="USER_ADMIN"
               className="mb-1"
-              {...register('roles.1')}
+              {...register('roles.USER_ADMIN')}
             />
             <Checkbox
               id="content-manager-role"
               label="Content Manager"
-              value="CONTENT_MANAGER"
               className="mb-1"
-              {...register('roles.2')}
+              {...register('roles.CONTENT_MANAGER')}
             />
             <Checkbox
               id="content-publisher-role"
               label="Content Publisher"
-              value="CONTENT_PUBLISHER"
-              {...register('roles.3')}
+              {...register('roles.CONTENT_PUBLISHER')}
             />
           </fieldset>
           <ErrorMessage

@@ -1,3 +1,5 @@
+import Activity from './Activity';
+
 export default function Dashboard() {
   return (
     <div className="flex flex-col h-full">
@@ -15,10 +17,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="h-full">
-          <div className="h-full flex flex-col">
-            <h2 className="text-xl  font-bold mb-2 text-gray-400">Activity</h2>
-            <div className="flex-1 rounded-md bg-gray-700 bg-opacity-40"></div>
-          </div>
+          <Activity />
         </div>
       </div>
     </div>

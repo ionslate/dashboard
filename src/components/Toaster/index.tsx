@@ -32,7 +32,7 @@ function Toast({ id, message, type }: ToastData) {
     <div
       className={classes(
         toastColorMap[type],
-        'flex justify-between items-center w-[21rem] min-h-[4rem] pointer-events-auto mb-2 py-2 px-3 pr-1 rounded text-white transition transform',
+        'flex justify-between items-center w-[21rem] min-h-[4rem] pointer-events-auto mb-2 py-2 px-3 pr-1 rounded text-white transition transform ease-in-out',
         status === 'mount' && 'opacity-0 scale-95 -translate-y-10',
         status === 'idle' && 'opacity-100 scale-100 translate-y-0',
         status === 'unmount' && 'opacity-0 scale-95 -translate-y-10',

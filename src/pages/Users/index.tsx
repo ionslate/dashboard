@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { VscSearchStop } from 'react-icons/vsc';
 import { Virtuoso } from 'react-virtuoso';
 import Loader from '../../components/Loader';
@@ -44,7 +44,10 @@ export default function UsersPage() {
     setUserSearch(userSearch);
   }, 300);
 
-  const users = data?.pages.flatMap((page) => page.userList.content) || [];
+  const users = useMemo(
+    () => data?.pages.flatMap((page) => page.userList.content) || [],
+    [data?.pages],
+  );
 
   return (
     <UserSearchContext.Provider value={userSearch}>
