@@ -51,8 +51,11 @@ export default function ResetPassword() {
       queryClient.setQueryData<UserQuery>(useUserQuery.getKey({}), {
         user: res.resetPassword,
       });
-      history.push('/');
-      toast.success('Password Changed');
+
+      setTimeout(() => {
+        history.push('/');
+        toast.success('Password Changed');
+      }, 0);
     },
   });
 
